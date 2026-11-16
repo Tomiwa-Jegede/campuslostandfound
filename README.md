@@ -1,72 +1,44 @@
-# Campus Lost & Found
+# Campus Lost and Found Portal
 
-An IFT305 software engineering project: a lost-and-found portal for a university campus,
-built on the **PERN stack** (PostgreSQL, Express, React, Node.js).
+IFT305 course project. A web portal where students report lost or found items, claim items with proof, and an admin approves or rejects claims. Built on the PERN stack (PostgreSQL, Express, React, Node).
 
-The centrepiece is **verified ownership**: a student claims a found item privately, an
-administrator compares the claim with the report, and only after approval do the two
-people see each other's contact details.
+## Folders
+| Folder | Contents |
+|---|---|
+| `frontend/` | React + Vite app (plain CSS, JavaScript) |
+| `backend/` | Express REST API (JWT auth, multer uploads) |
+| `database/` | `schema.sql`, `seed.sql` |
+| `docs/` | `blueprint.md`, `prd.md`, `design.md` |
 
-## Current state
+## Prerequisites
+Node 20+, PostgreSQL 14+ (with `pgcrypto`), macOS/Linux shell.
 
-| Phase | What it covers | Status |
-|---|---|---|
-| 0 | Environment and workspace inspection | done |
-| 1 | Requirements (`docs/prd.md`) | approved |
-| 2 | UI/UX design (`docs/design.md`, `design/`) | approved |
-| 3 | React frontend | built, running on mock data |
-| 4 | Express API | not started |
-| 5 | PostgreSQL database | not started |
-| 6 | Testing | not started |
-| 7 | Documentation | not started |
-
-The frontend currently talks to an in-browser **mock API** so every screen and rule can be
-demonstrated before the server exists. `client/src/lib/api.js` has a single `USE_MOCK`
-switch; flipping it to `false` points the same UI at the Express API from Phase 4.
-
-## Run the frontend
-
+## Setup (one time)
 ```bash
-cd client
-npm install
-npm run dev
+createdb campus_lost_found
+psql campus_lost_found -f database/schema.sql
+psql campus_lost_found -f database/seed.sql
+cp backend/.env.example backend/.env        # then set JWT_SECRET
+(cd backend && npm install)
+(cd frontend && npm install)
 ```
 
-Then open <http://localhost:5173>.
-
-Demo accounts (mock data only, passwords are stored in plain text on purpose and will be
-hashed with bcrypt on the real server):
-
-| Role | Email | Password |
-|---|---|---|
-| Student | `ada.okafor@campus.edu.ng` | `password123` |
-| Student | `tunde.bello@campus.edu.ng` | `password123` |
-| Administrator | `admin@campus.edu.ng` | `admin1234` |
-
-## Repository layout
-
+## Run
+```bash
+(cd backend && npm run dev)     # API on http://localhost:5000
+(cd frontend && npm run dev)    # App on http://localhost:5173
 ```
-client/            React app (Vite, JavaScript)
-  src/lib/         api.js (mock + real client), validation, formatting, config
-  src/data/        seed data for the mock API
-  src/components/  shared UI components
-  src/pages/       one file per screen, admin screens in pages/admin/
-  src/layouts/     public/student top bar, admin sidebar
-docs/              prd.md, design.md, blueprint.md, team plan
-design/            HTML mockups and the design PDF
-```
+Admin login: `admin@campus.edu.ng` / `admin1234` (change it after first use).
+Students register themselves with a matric number (e.g. `IFT/21/1042`) and a `@campus.edu.ng` email.
 
-## Documentation
+## Main flow
+Student A reports a found item (photo optional) -> Student B claims it with proof (30+ characters) -> admin approves -> both students see each other's contact details and the item becomes RETURNED. If the admin rejects (reason required), the item goes back to OPEN and that student cannot claim it again.
 
-- `docs/prd.md` — problem, users, functional and non-functional requirements
-- `docs/design.md` — brand, sitemap, wireframes, UX rules
-- `docs/blueprint.md` — decisions log and phase tracker
-- `docs/team-plan.pdf` — the three-person work plan
+## API
+All routes are under `/api`, JSON, `Authorization: Bearer <token>`. Errors look like `{"error": "message"}`. The full list is in `docs/blueprint.md` section 11.
+
+## Frontend data source
+`frontend/src/lib/api.js` talks to the real API and reshapes responses for the UI. The old in-browser mock is kept in `frontend/src/lib/api.mock.backup.js`.
 
 ## Known limitations
-
-- Accounts are checked by matric-number format and email domain, not by mailbox verification.
-- Claims are reviewed by a staff member; ownership is not proven automatically.
-- No pagination, so very long lists would be slow.
-- A rejected claim blocks that student from claiming the same item again, with no override screen.
-- No public deployment: this is a local demonstration.
+See `docs/blueprint.md` section 15.

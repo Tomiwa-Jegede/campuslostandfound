@@ -204,3 +204,21 @@ Tables: `users`, `categories`, `items`, `claims`.
 | `docs/blueprint.md` | This file — decisions, status, architecture |
 | `docs/prd.md` | Approved requirements, roles, journeys, success criteria |
 | `docs/design.md` | Brand identity, sitemap, navigation, wireframes, UX rules |
+
+## 15. Known Limitations (final)
+1. No email or SMS: finder and claimant contact details are shown in the app only after approval.
+2. No pagination: lists load every item (fine for a campus demo, not for large data).
+3. Registration is restricted by matric format and campus email domain only; the email address is not verified (D5).
+4. Matric number and email cannot be changed after registration.
+5. A rejected claim is permanent: that student cannot claim the same item again and there is no admin override (D19).
+6. Reports lock after the first claim; there is no delete-report (admins archive instead) and no unarchive.
+7. The Edit button can appear on a report that already had a claim; the server refuses with 409.
+8. No change-password screen backend; passwords are changed only via the database.
+9. Photos are stored on the server's local disk (max 5 MB, images only); no cloud storage.
+10. JWT lasts 7 days with no refresh or revocation.
+11. No automated tests; verification was manual end-to-end (register, report, claim, approve, reject).
+12. Local demonstration only: no HTTPS, rate limiting, or production hardening.
+
+## 16. Phase Status Update
+- Phase 6 (integration, testing, debugging): frontend switched from mock to real API through an adapter in `frontend/src/lib/api.js`; wrap/overflow CSS fixes; DATE timezone fix in `backend/db.js`.
+- Phase 7 (documentation): README, `.env.example`, limitations (this section).
