@@ -42,8 +42,8 @@ React (browser)  --HTTP/JSON-->  Express API  --SQL-->  PostgreSQL
 
 ```
 IFT305project/
-├── client/          React + Vite frontend
-├── server/          Express backend
+├── frontend/          React + Vite frontend
+├── backend/          Express backend
 ├── database/        SQL schema, seed, queries
 └── docs/            blueprint.md, prd.md, ERD, diagrams
 ```

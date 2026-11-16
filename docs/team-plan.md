@@ -101,7 +101,7 @@ nobody starts a screen.
 ### 3.3 Frontend file ownership
 
 ```
-client/src/
+frontend/src/
   App.jsx  main.jsx  routes.jsx  index.css        → A   (integrator, shared files)
   components/layout/**                            → A
   components/ui/Card.jsx  Badge.jsx  StatusBadge.jsx
@@ -156,7 +156,7 @@ broken route returns the standard error shape. B and C start after that.
 ### 4.3 Backend file ownership
 
 ```
-server/src/
+backend/src/
   app.js  server.js  config/**  db/**             → A
   middleware/error.js  utils/response.js          → A
   middleware/auth.js                              → A
@@ -165,7 +165,7 @@ server/src/
   middleware/upload.js                            → B
   modules/claims/**                               → C
   modules/admin/items.js  admin/stats.js          → C
-server/uploads/                                   → git-ignored
+backend/uploads/                                   → git-ignored
 ```
 
 ### 4.4 Two cross-module rules that prevent real bugs

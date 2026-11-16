@@ -5,7 +5,7 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 const ORIGIN = API_BASE.replace(/\/api\/?$/, '')
 
 /* If a create/list call fails with a field-name mismatch, fix it HERE
-   (compare with server/routes/items.js). */
+   (compare with backend/routes/items.js). */
 const CREATE_FIELDS = {
   type: 'type', title: 'title', category: 'category_id',
   description: 'description', date: 'date_occurred', location: 'location',
