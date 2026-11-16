@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Lost &amp; Found — Phase 2 design boards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1E40AF; --primary-strong:#1E3A8A; --found:#15803D; --lost:#B45309;
+    --muted:#475569; --bg:#EFF6FF; --card:#FFFFFF; --border:#BFDBFE; --danger:#DC2626;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:#E7ECF3; color:#0F172A;
+    font-family:Inter,-apple-system,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,p{margin:0}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- board shell ---------- */
+  .board-head{display:flex;align-items:center;gap:18px;padding:40px 48px 8px}
+  .board-head h1{font-size:22px;font-weight:700;letter-spacing:-.01em}
+  .board-head p{font-size:14px;color:#475569;margin-top:4px}
+  .board{padding:24px 48px 80px;display:flex;flex-direction:column;gap:52px;align-items:flex-start}
+  .frame-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#334155;margin-bottom:10px}
+  .frame-label span{color:#94A3B8;font-weight:500;letter-spacing:0;text-transform:none;margin-left:6px}
+  .frame{width:1440px;background:var(--bg);border:1px solid #D7E3F4;border-radius:16px;overflow:hidden;box-shadow:0 12px 32px rgba(15,23,42,.09)}
+  .frame-m{width:390px}
+  .mob-row{display:flex;gap:44px;align-items:flex-start;flex-wrap:wrap;max-width:824px}
+
+  /* ---------- shared components ---------- */
+  .tb{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:22px;padding:0 40px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:var(--primary-strong);white-space:nowrap}
+  .nav{display:flex;gap:22px;margin-left:14px}
+  .nav a{font-size:15px;font-weight:500;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent}
+  .nav a.active{color:var(--primary);border-bottom-color:var(--primary)}
+  .spacer{flex:1}
+  .avatar{width:38px;height:38px;border-radius:50%;background:#DBEAFE;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:10px;font-family:inherit;font-size:15px;font-weight:600;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-secondary{background:#fff;color:var(--primary-strong);border-color:var(--border)}
+  .btn-ghost{background:transparent;color:var(--primary)}
+  .btn-danger{background:var(--danger);color:#fff}
+  .btn-line{background:#fff;color:var(--danger);border-color:#FCA5A5}
+  .btn-sm{height:36px;padding:0 14px;font-size:14px;border-radius:8px}
+  .btn-lg{height:52px;padding:0 26px;font-size:16px}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.03em}
+  .b-lost{background:#FEF3C7;color:var(--lost)}
+  .b-found{background:#DCFCE7;color:var(--found)}
+  .b-pending{background:#DBEAFE;color:var(--primary)}
+  .b-returned{background:#E2E8F0;color:var(--muted)}
+  .b-archived{background:#F1F5F9;color:#64748B}
+
+  .card{background:#fff;border:1px solid #DCE7F7;border-radius:14px}
+  .thumb{border-radius:10px;background:linear-gradient(135deg,#E4EEFB,#C9DCF4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#7C9BC4;font-size:12px;font-weight:500}
+
+  .h1{font-size:30px;line-height:1.2;font-weight:700;color:var(--primary-strong);letter-spacing:-.01em}
+  .h2{font-size:20px;line-height:1.3;font-weight:600}
+  .h3{font-size:16px;font-weight:600}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary)}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+  .xs{font-size:12px}
+
+  .label{display:block;font-size:14px;font-weight:500;color:#334155;margin-bottom:7px}
+  .input{width:100%;height:44px;border:1px solid var(--border);border-radius:10px;padding:0 12px;font-family:inherit;font-size:16px;color:#0F172A;background:#fff;display:flex;align-items:center}
+  .input.area{height:auto;min-height:132px;padding:12px;align-items:flex-start;color:#64748B}
+  .hint{font-size:13px;color:#64748B;margin-top:6px}
+  .req{color:var(--danger)}
+  .field{margin-bottom:20px}
+  .err{font-size:13px;color:var(--danger);margin-top:6px}
+  .input.bad{border-color:#F87171;background:#FEF2F2}
+
+  .chip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:13px;font-weight:500;color:#334155}
+
+  .container{width:1120px;margin:0 auto}
+  .sec{padding:44px 0}
+
+  /* landing */
+  .hero{padding:64px 0 48px}
+  .searchbar{display:flex;gap:10px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 8px 24px rgba(30,64,175,.07)}
+  .searchbar .input{border:0;height:48px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .step{background:#fff;border:1px solid #DCE7F7;border-radius:14px;padding:22px}
+  .stepnum{width:32px;height:32px;border-radius:50%;background:#DBEAFE;color:var(--primary);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .itemcard{background:#fff;border:1px solid #DCE7F7;border-radius:14px;overflow:hidden}
+  .itemcard .thumb{height:170px;border-radius:0}
+  .itemcard .body{padding:14px 16px 16px}
+
+  .footer{background:#fff;border-top:1px solid var(--border);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;color:#64748B;font-size:13px}
+
+  /* admin */
+  .admin{display:flex;background:#F6F9FE;min-height:860px}
+  .side{width:248px;background:#fff;border-right:1px solid var(--border);padding:22px 14px;display:flex;flex-direction:column;gap:4px}
+  .side .brand{font-size:15px;padding:0 8px 18px}
+  .sideitem{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;border-radius:9px;font-size:15px;font-weight:500;color:var(--muted)}
+  .sideitem.active{background:#EFF6FF;color:var(--primary);font-weight:600;box-shadow:inset 3px 0 0 var(--primary);border-radius:0 9px 9px 0}
+  .sidefoot{margin-top:auto;border-top:1px solid #E2E8F0;padding-top:16px;font-size:13px;color:#64748B}
+  .main{flex:1;padding:32px 40px}
+  .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .stat{background:#fff;border:1px solid #DCE7F7;border-radius:14px;padding:20px}
+  .stat b{display:block;font-size:28px;font-weight:700;color:var(--primary-strong)}
+  .stat span{font-size:13px;color:var(--muted)}
+  .rows{background:#fff;border:1px solid #DCE7F7;border-radius:14px;overflow:hidden}
+  .row{display:flex;align-items:center;gap:16px;padding:14px 18px;border-bottom:1px solid #EDF2FA}
+  .row:last-child{border-bottom:0}
+  .row .thumb{width:56px;height:56px;flex:none}
+  .notebox{background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:14px 16px;font-size:14px;color:#92400E}
+  .infobox{background:#EFF6FF;border:1px solid var(--border);border-radius:12px;padding:16px 18px;font-size:14px;color:#1E3A8A}
+  .lock{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#94A3B8}
+
+  @media print{
+    @page{size:1800px 1450px;margin:0}
+    body{background:#fff}
+    .board-head{display:none}
+    .board{padding:28px;gap:0}
+    .frame-wrap{break-after:page;page-break-after:always}
+    .frame{box-shadow:none;border-color:#D7E3F4}
+    .mob-row{flex-wrap:nowrap;max-width:none;gap:30px}
+  }
+</style>
+</head>
+<body>
+
+<div class="board-head">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/>
+    <circle cx="8.5" cy="8.5" r="1.6"/>
+  </svg>
+  <div>
+    <h1>Campus Lost &amp; Found — Phase 2 design boards</h1>
+    <p>16 desktop screens at 1440px · 4 mobile screens at 390px · tokens and rules in <b>docs/design.md</b></p>
+  </div>
+</div>
+
+<div class="board">
+
+<!-- 01 LANDING -->
+<article class="frame-wrap">
+  <div class="frame-label">01 · Landing <span>/</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a></nav>
+      <div class="spacer"></div>
+      <a href="#" class="muted small" style="font-weight:500">Log in</a>
+      <button class="btn btn-secondary btn-sm">Sign up</button>
+      <button class="btn btn-primary btn-sm">Report an item</button>
+    </div>
+
+    <div class="container hero">
+      <p class="eyebrow" style="margin-bottom:14px">Student lost &amp; found service</p>
+      <h1 style="font-size:44px;line-height:1.15;font-weight:700;color:var(--primary-strong);letter-spacing:-.02em;max-width:760px">
+        Lost something on campus?
+      </h1>
+      <p class="muted" style="font-size:18px;line-height:1.6;margin-top:14px;max-width:620px">
+        Report it here. Someone may already have found it — and an admin verifies every claim before contact is shared.
+      </p>
+
+      <div class="searchbar" style="max-width:760px;margin-top:28px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="margin-left:12px;align-self:center;flex:none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <div class="input" style="color:#94A3B8">Search by item, brand, colour or location</div>
+        <button class="btn btn-primary btn-lg">Search</button>
+      </div>
+
+      <div style="display:flex;gap:14px;margin-top:22px">
+        <button class="btn btn-primary btn-lg">I lost an item</button>
+        <button class="btn btn-secondary btn-lg">I found an item</button>
+      </div>
+    </div>
+
+    <div class="container" style="padding-bottom:52px">
+      <h2 class="h2" style="margin-bottom:18px">How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="stepnum">1</div>
+          <div class="h3">Report it</div>
+          <p class="muted small" style="margin-top:8px;line-height:1.6">Post a lost or found item with a photo, category and location. Takes under a minute.</p>
+        </div>
+        <div class="step">
+          <div class="stepnum">2</div>
+          <div class="h3">Search for it</div>
+          <p class="muted small" style="margin-top:8px;line-height:1.6">Filter by category, place and date instead of scrolling a group chat.</p>
+        </div>
+        <div class="step">
+          <div class="stepnum">3</div>
+          <div class="h3">Claim it</div>
+          <p class="muted small" style="margin-top:8px;line-height:1.6">Describe features only the owner would know. An admin reviews before contacts are shared.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-top:1px solid var(--border);padding:36px 0">
+      <div class="container">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+          <h2 class="h2">Recently found</h2>
+          <a class="small" style="color:var(--primary);font-weight:600">View all found items →</a>
+        </div>
+        <div class="grid4">
+          <div class="itemcard"><div class="thumb">Item photo</div><div class="body"><span class="badge b-found">FOUND</span><div class="h3" style="margin-top:10px">Black iPhone 13</div><div class="muted small" style="margin-top:4px">Electronics</div><div class="muted xs" style="margin-top:10px">Cafeteria · 14 Nov</div></div></div>
+          <div class="itemcard"><div class="thumb">Item photo</div><div class="body"><span class="badge b-found">FOUND</span><div class="h3" style="margin-top:10px">Student ID card</div><div class="muted small" style="margin-top:4px">ID Cards &amp; Documents</div><div class="muted xs" style="margin-top:10px">Lecture Hall B · 13 Nov</div></div></div>
+          <div class="itemcard"><div class="thumb">Item photo</div><div class="body"><span class="badge b-found">FOUND</span><div class="h3" style="margin-top:10px">Brown leather wallet</div><div class="muted small" style="margin-top:4px">Wallets &amp; Bags</div><div class="muted xs" style="margin-top:10px">Cafeteria · 12 Nov</div></div></div>
+          <div class="itemcard"><div class="thumb">Item photo</div><div class="body"><span class="badge b-found">FOUND</span><div class="h3" style="margin-top:10px">Bunch of keys</div><div class="muted small" style="margin-top:4px">Keys</div><div class="muted xs" style="margin-top:10px">Library · 11 Nov</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Campus Lost &amp; Found · IFT305 project · 2026</div>
+      <div style="display:flex;gap:22px"><a>About</a><a>Report an issue</a><a>Contact admin</a></div>
+    </div>
+  </div>
+</article>
+
+<!-- 02 LOST ITEMS -->
+<article class="frame-wrap">
+  <div class="frame-label">02 · Lost items <span>/lost</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a class="active" href="#">Lost</a><a href="#">Found</a></nav>
+      <div class="spacer"></div>
+      <button class="btn btn-primary btn-sm">+ Report an item</button>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:36px;padding-bottom:56px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <h1 class="h1">Lost items</h1>
+          <p class="muted" style="margin-top:8px">24 open reports across campus</p>
+        </div>
+        <button class="btn btn-primary">+ Report a lost item</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:14px">
+        <div class="searchbar" style="flex:1;padding:6px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="margin-left:10px;align-self:center;flex:none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <div class="input" style="border:0;color:#94A3B8">Search title or description</div>
+        </div>
+        <div class="input" style="width:220px;justify-content:space-between;color:#334155">Category <span class="muted">▾</span></div>
+        <button class="btn btn-secondary">Filters <span class="badge b-pending" style="height:20px">2</span></button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
+        <span class="chip">Electronics <span class="muted">×</span></span>
+        <span class="chip">Library <span class="muted">×</span></span>
+        <a class="small" style="color:var(--primary);font-weight:600;margin-left:6px">Clear all</a>
+      </div>
+
+      <div class="grid3">
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">2 days ago</span></div>
+          <div class="h3" style="margin-top:10px">Black iPhone 13</div><div class="muted small" style="margin-top:4px">Electronics</div>
+          <div class="muted xs" style="margin-top:12px">Library · 2nd floor</div></div></div>
+
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">5 days ago</span></div>
+          <div class="h3" style="margin-top:10px">Student ID card</div><div class="muted small" style="margin-top:4px">ID Cards &amp; Documents</div>
+          <div class="muted xs" style="margin-top:12px">Lecture Hall B</div></div></div>
+
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">1 week ago</span></div>
+          <div class="h3" style="margin-top:10px">Brown leather wallet</div><div class="muted small" style="margin-top:4px">Wallets &amp; Bags</div>
+          <div class="muted xs" style="margin-top:12px">Cafeteria</div></div></div>
+
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">1 week ago</span></div>
+          <div class="h3" style="margin-top:10px">Blue umbrella</div><div class="muted small" style="margin-top:4px">Accessories</div>
+          <div class="muted xs" style="margin-top:12px">Faculty of Science</div></div></div>
+
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">2 weeks ago</span></div>
+          <div class="h3" style="margin-top:10px">HP laptop charger</div><div class="muted small" style="margin-top:4px">Electronics</div>
+          <div class="muted xs" style="margin-top:12px">Computer lab 3</div></div></div>
+
+        <div class="itemcard"><div class="thumb" style="height:190px">Item photo</div><div class="body">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge b-lost">LOST</span><span class="muted xs">2 weeks ago</span></div>
+          <div class="h3" style="margin-top:10px">Chemistry textbook</div><div class="muted small" style="margin-top:4px">Books &amp; Stationery</div>
+          <div class="muted xs" style="margin-top:12px">Library · 1st floor</div></div></div>
+      </div>
+    </div>
+
+    <div class="footer"><div>Campus Lost &amp; Found · IFT305 project · 2026</div><div style="display:flex;gap:22px"><a>About</a><a>Report an issue</a><a>Contact admin</a></div></div>
+  </div>
+</article>
+
+<!-- 03 ITEM DETAIL -->
+<article class="frame-wrap">
+  <div class="frame-label">03 · Item detail <span>/items/:id</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a class="active" href="#">Found</a></nav>
+      <div class="spacer"></div>
+      <button class="btn btn-primary btn-sm">+ Report an item</button>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:26px;padding-bottom:56px">
+      <a class="small muted" style="display:inline-block;margin-bottom:22px">← Back to found items</a>
+
+      <div style="display:grid;grid-template-columns:520px 1fr;gap:44px;align-items:start">
+        <div class="thumb" style="height:420px;border-radius:16px;font-size:13px">Item photo · 4:3</div>
+
+        <div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+            <span class="badge b-found">FOUND</span>
+            <span class="badge b-pending">OPEN</span>
+          </div>
+          <h1 style="font-size:34px;line-height:1.15;font-weight:700;color:var(--primary-strong);letter-spacing:-.015em">Black iPhone 13</h1>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px">
+            <div><div class="xs muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">Category</div><div style="margin-top:5px;font-size:15px">Electronics</div></div>
+            <div><div class="xs muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">Found on</div><div style="margin-top:5px;font-size:15px">14 November 2026</div></div>
+            <div><div class="xs muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">Location</div><div style="margin-top:5px;font-size:15px">Cafeteria</div></div>
+            <div><div class="xs muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">Reported by</div><div style="margin-top:5px;font-size:15px">Chidi O.</div></div>
+          </div>
+
+          <div style="margin-top:30px">
+            <div class="h3" style="margin-bottom:8px">Description</div>
+            <p class="muted" style="font-size:15px;line-height:1.7">Black iPhone 13 in a blue case, left charging on a table by the window. The screen is locked. Found around 2pm and handed to no one — I still have it.</p>
+          </div>
+
+          <div class="card" style="margin-top:30px;padding:22px">
+            <button class="btn btn-primary btn-lg" style="width:100%">This is mine — submit a claim</button>
+            <p class="muted xs" style="margin-top:12px;line-height:1.6">You will be asked to describe features that are not visible in the photo. An admin reviews every claim before contact details are shared.</p>
+          </div>
+
+          <div class="notebox" style="margin-top:18px">
+            <b>Contact details are protected.</b> The finder's phone number and email are revealed only to the student whose claim is approved.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer"><div>Campus Lost &amp; Found · IFT305 project · 2026</div><div style="display:flex;gap:22px"><a>About</a><a>Report an issue</a><a>Contact admin</a></div></div>
+  </div>
+</article>
+
+<!-- 04 SUBMIT CLAIM -->
+<article class="frame-wrap">
+  <div class="frame-label">04 · Submit claim <span>/items/:id/claim</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a class="active" href="#">Found</a></nav>
+      <div class="spacer"></div>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:26px;padding-bottom:56px">
+      <a class="small muted" style="display:inline-block;margin-bottom:22px">← Back to item</a>
+
+      <div style="display:grid;grid-template-columns:320px 1fr;gap:48px;align-items:start">
+
+        <div class="card" style="padding:16px">
+          <div class="thumb" style="height:200px">Item photo</div>
+          <div style="padding:14px 4px 4px">
+            <div class="h3">Black iPhone 13</div>
+            <div class="muted small" style="margin-top:4px">Electronics · Cafeteria</div>
+            <div class="xs muted" style="margin-top:10px">Found 14 Nov 2026 by Chidi O.</div>
+          </div>
+        </div>
+
+        <div>
+          <h1 class="h1">Prove this is yours</h1>
+          <p class="muted" style="margin-top:10px;font-size:15px;line-height:1.7;max-width:640px">
+            Describe features a stranger could not know. Do not repeat the public description — the admin can already see that.
+          </p>
+
+          <div style="margin-top:28px;max-width:660px">
+            <div class="field">
+              <label class="label">Your proof of ownership <span class="req">*</span></label>
+              <div class="input area" style="color:#334155;line-height:1.6">Cracked bottom-right corner with a hairline crack, blue silicone case with a small lion sticker on the back, lock screen photo of my sister and I. Case has a scratch near the camera.<br><br>I can also name the last four digits of the IMEI and the wallpaper colour.</div>
+              <div style="display:flex;justify-content:space-between"><div class="hint">Minimum 30 characters. Do not include your phone number.</div><div class="hint">312 / 1000</div></div>
+            </div>
+
+            <div class="field">
+              <label class="label">Serial or receipt reference <span class="muted" style="font-weight:400">(optional)</span></label>
+              <div class="input" style="color:#64748B">IMEI ending 4421</div>
+              <div class="hint">Anything an admin can cross-check to strengthen your claim.</div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:16px;background:#fff;border:1px solid var(--border);border-radius:12px">
+              <div style="width:20px;height:20px;border:2px solid var(--primary);border-radius:5px;flex:none;margin-top:1px"></div>
+              <div>
+                <div style="font-size:14px;font-weight:500">I confirm this is my property.</div>
+                <div class="muted xs" style="margin-top:3px">False claims may be reported to the student affairs office.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:14px;margin-top:24px">
+              <button class="btn btn-primary btn-lg">Submit claim</button>
+              <button class="btn btn-secondary btn-lg">Cancel</button>
+            </div>
+
+            <div class="infobox" style="margin-top:26px">
+              <div style="font-weight:600;margin-bottom:10px">What happens next</div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.6">
+                <div><b>1.</b> An admin reads your proof and compares it with the item.</div>
+                <div><b>2.</b> If approved, you and the finder both see each other's phone and email.</div>
+                <div><b>3.</b> If rejected, you are told why. You cannot claim the same item twice.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 05 REPORT ITEM -->
+<article class="frame-wrap">
+  <div class="frame-label">05 · Report item <span>/report</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a></nav>
+      <div class="spacer"></div>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div style="padding:36px 0 64px">
+      <div style="width:760px;margin:0 auto">
+        <h1 class="h1">Report an item</h1>
+        <p class="muted" style="margin-top:8px">Only the details that matter. You can edit this while it is still open.</p>
+
+        <div style="display:inline-flex;background:#fff;border:1px solid var(--border);border-radius:12px;padding:5px;margin-top:26px">
+          <div style="height:42px;padding:0 22px;display:flex;align-items:center;border-radius:8px;background:#fff;color:var(--muted);font-size:15px;font-weight:500">I lost something</div>
+          <div style="height:42px;padding:0 22px;display:flex;align-items:center;border-radius:8px;background:var(--primary);color:#fff;font-size:15px;font-weight:600">I found something</div>
+        </div>
+
+        <div class="card" style="padding:28px;margin-top:22px">
+          <div class="field">
+            <label class="label">Title <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">Black iPhone 13 in a blue case</div>
+            <div class="hint">A short name someone would search for.</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="field">
+              <label class="label">Category <span class="req">*</span></label>
+              <div class="input" style="justify-content:space-between;color:#0F172A">Electronics <span class="muted">▾</span></div>
+            </div>
+            <div class="field">
+              <label class="label">Date found <span class="req">*</span></label>
+              <div class="input" style="color:#0F172A;justify-content:space-between">14 / 11 / 2026 <span class="muted">▾</span></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Description <span class="req">*</span></label>
+            <div class="input area" style="color:#334155;line-height:1.6">Black iPhone with a blue case, left charging at the cafeteria. Screen is locked. I still have it with me.</div>
+            <div class="notebox" style="margin-top:10px;font-size:13px;padding:11px 14px">
+              <b>Do not describe features you would use to prove ownership.</b> Anyone browsing this page can read it, and it makes the real owner's claim impossible to verify.
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Where did you find it? <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">Cafeteria, ground floor</div>
+          </div>
+
+          <div class="field">
+            <label class="label">Photo <span class="muted" style="font-weight:400">(optional, recommended)</span></label>
+            <div style="border:1.5px dashed var(--border);border-radius:12px;background:#F8FBFF;padding:26px;text-align:center">
+              <div style="font-size:14px;font-weight:600;color:var(--primary-strong)">Choose a file or drag it here</div>
+              <div class="hint" style="margin-top:6px">JPG or PNG, maximum 2 MB. One photo per item.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;margin-top:26px">
+            <button class="btn btn-primary btn-lg">Publish found report</button>
+            <button class="btn btn-secondary btn-lg">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 06 REGISTER -->
+<article class="frame-wrap">
+  <div class="frame-label">06 · Register <span>/register</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <div class="spacer"></div>
+      <a class="small" style="color:var(--primary);font-weight:600">Already registered? Log in</a>
+    </div>
+
+    <div style="padding:44px 0 64px">
+      <div class="card" style="width:480px;margin:0 auto;padding:32px">
+        <h1 style="font-size:26px;font-weight:700;color:var(--primary-strong)">Create your account</h1>
+        <p class="muted small" style="margin-top:6px">Students only. Use your campus details.</p>
+
+        <div style="margin-top:26px">
+          <div class="field">
+            <label class="label">Full name <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">Amaka Johnson</div>
+          </div>
+          <div class="field">
+            <label class="label">Matric number <span class="req">*</span></label>
+            <div class="input bad" style="color:#0F172A">IFT/20/12</div>
+            <div class="err">Use the full format, for example IFT/20/1234.</div>
+          </div>
+          <div class="field">
+            <label class="label">Department <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">Computer Science</div>
+          </div>
+          <div class="field">
+            <label class="label">Campus email <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">amaka.johnson@campus.edu.ng</div>
+            <div class="hint">Must end in @campus.edu.ng</div>
+          </div>
+          <div class="field">
+            <label class="label">Phone number <span class="req">*</span></label>
+            <div class="input" style="color:#0F172A">0803 123 4567</div>
+            <div class="hint">Shown only to a student whose claim you approve.</div>
+          </div>
+          <div class="field">
+            <label class="label">Password <span class="req">*</span></label>
+            <div class="input" style="color:#94A3B8">••••••••••</div>
+            <div class="hint">At least 8 characters.</div>
+          </div>
+          <div class="field">
+            <label class="label">Confirm password <span class="req">*</span></label>
+            <div class="input" style="color:#94A3B8">••••••••••</div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%;margin-top:6px">Create account</button>
+          <p class="muted xs" style="text-align:center;margin-top:16px">Already registered? <a style="color:var(--primary);font-weight:600">Log in</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 07 LOGIN -->
+<article class="frame-wrap">
+  <div class="frame-label">07 · Login <span>/login</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <div class="spacer"></div>
+      <a class="small" style="color:var(--primary);font-weight:600">Sign up</a>
+    </div>
+
+    <div style="padding:88px 0 120px">
+      <div class="card" style="width:440px;margin:0 auto;padding:34px">
+        <h1 style="font-size:26px;font-weight:700;color:var(--primary-strong)">Welcome back</h1>
+        <p class="muted small" style="margin-top:6px">Log in to report, claim, or manage your items.</p>
+
+        <div style="margin-top:26px">
+          <div class="field">
+            <label class="label">Campus email</label>
+            <div class="input" style="color:#0F172A">amaka.johnson@campus.edu.ng</div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="input" style="color:#94A3B8">••••••••••</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#FEF2F2;border:1px solid #FCA5A5;border-radius:10px;margin-bottom:18px">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--danger);flex:none"></span>
+            <span class="small" style="color:#B91C1C">Email or password is incorrect.</span>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%">Log in</button>
+          <p class="muted xs" style="text-align:center;margin-top:16px">No account yet? <a style="color:var(--primary);font-weight:600">Sign up</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 08 STUDENT DASHBOARD -->
+<article class="frame-wrap">
+  <div class="frame-label">08 · Student dashboard <span>/dashboard</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a><a href="#">Dashboard</a></nav>
+      <div class="spacer"></div>
+      <button class="btn btn-primary btn-sm">+ Report an item</button>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:34px;padding-bottom:56px">
+      <h1 class="h1">Hello, Amaka</h1>
+      <p class="muted" style="margin-top:8px">Here is what is happening with your items.</p>
+
+      <div style="display:flex;gap:16px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:14px;padding:18px 20px;margin-top:26px;align-items:center">
+        <div style="width:36px;height:36px;border-radius:50%;background:#D1FAE5;color:#047857;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none">✓</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:#065F46">Your claim on “Black iPhone 13” was approved</div>
+          <div class="small" style="color:#047857;margin-top:3px">The finder's contact details are now visible on the item page.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm">View item</button>
+      </div>
+
+      <div class="statgrid" style="margin-top:24px;grid-template-columns:repeat(3,1fr)">
+        <div class="stat"><b>3</b><span>My open reports</span></div>
+        <div class="stat"><b>1</b><span>Claim pending review</span></div>
+        <div class="stat"><b>2</b><span>Items returned to me</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+            <h2 class="h2">My reports</h2><a class="small" style="color:var(--primary);font-weight:600">View all →</a>
+          </div>
+          <div class="rows">
+            <div class="row"><div class="thumb">img</div><div style="flex:1"><div class="h3">Black iPhone 13</div><div class="xs muted" style="margin-top:3px">Electronics · Cafeteria</div></div><span class="badge b-lost">LOST</span></div>
+            <div class="row"><div class="thumb">img</div><div style="flex:1"><div class="h3">Student ID card</div><div class="xs muted" style="margin-top:3px">ID &amp; Documents · Lecture Hall B</div></div><span class="badge b-returned">RETURNED</span></div>
+            <div class="row"><div class="thumb">img</div><div style="flex:1"><div class="h3">Brown wallet</div><div class="xs muted" style="margin-top:3px">Wallets · Cafeteria</div></div><span class="badge b-pending">CLAIM</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+            <h2 class="h2">My claims</h2><a class="small" style="color:var(--primary);font-weight:600">View all →</a>
+          </div>
+          <div class="rows">
+            <div class="row"><div class="thumb">img</div><div style="flex:1"><div class="h3">Black iPhone 13</div><div class="xs muted" style="margin-top:3px">Submitted 2 hours ago</div></div><span class="badge b-found">APPROVED</span></div>
+            <div class="row"><div class="thumb">img</div><div style="flex:1"><div class="h3">Blue umbrella</div><div class="xs muted" style="margin-top:3px">Submitted 1 week ago</div></div><span class="badge b-archived">REJECTED</span></div>
+          </div>
+          <div class="infobox" style="margin-top:16px;font-size:13px">
+            You have no notifications turned on. Claim decisions appear here and in <b>My claims</b>.
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:14px;margin-top:30px">
+        <button class="btn btn-primary">+ Report a lost item</button>
+        <button class="btn btn-secondary">+ Report a found item</button>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 09 MY REPORTS -->
+<article class="frame-wrap">
+  <div class="frame-label">09 · My reports <span>/my-reports</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a><a href="#">Dashboard</a></nav>
+      <div class="spacer"></div>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:34px;padding-bottom:56px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div>
+          <h1 class="h1">My reports</h1>
+          <p class="muted" style="margin-top:8px">3 active · 2 returned</p>
+        </div>
+        <button class="btn btn-primary">+ New report</button>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px;margin-bottom:18px">
+        <span class="chip" style="background:var(--primary);color:#fff;border-color:var(--primary)">All</span>
+        <span class="chip">Lost</span><span class="chip">Found</span><span class="chip">Open</span><span class="chip">Returned</span>
+      </div>
+
+      <div class="rows">
+        <div class="row" style="padding:16px 18px">
+          <div class="thumb" style="width:64px;height:64px">img</div>
+          <div style="flex:1">
+            <div class="h3">Black iPhone 13</div>
+            <div class="xs muted" style="margin-top:4px">Electronics · Cafeteria · reported 2 days ago</div>
+          </div>
+          <span class="badge b-lost">LOST</span>
+          <span class="badge b-pending">CLAIM PENDING</span>
+          <span class="xs muted" style="width:88px;text-align:right">1 claim</span>
+          <button class="btn btn-secondary btn-sm">View</button>
+          <span class="lock">locked</span>
+        </div>
+
+        <div class="row" style="padding:16px 18px">
+          <div class="thumb" style="width:64px;height:64px">img</div>
+          <div style="flex:1">
+            <div class="h3">Student ID card</div>
+            <div class="xs muted" style="margin-top:4px">ID &amp; Documents · Lecture Hall B · reported 1 week ago</div>
+          </div>
+          <span class="badge b-lost">LOST</span>
+          <span class="badge b-returned">RETURNED</span>
+          <span class="xs muted" style="width:88px;text-align:right">1 claim</span>
+          <button class="btn btn-secondary btn-sm">View</button>
+          <span class="lock">locked</span>
+        </div>
+
+        <div class="row" style="padding:16px 18px">
+          <div class="thumb" style="width:64px;height:64px">img</div>
+          <div style="flex:1">
+            <div class="h3">Brown leather wallet</div>
+            <div class="xs muted" style="margin-top:4px">Wallets &amp; Bags · Cafeteria · reported 3 days ago</div>
+          </div>
+          <span class="badge b-found">FOUND</span>
+          <span class="badge b-pending">OPEN</span>
+          <span class="xs muted" style="width:88px;text-align:right">0 claims</span>
+          <button class="btn btn-secondary btn-sm">View</button>
+          <button class="btn btn-secondary btn-sm">Edit</button>
+          <button class="btn btn-line btn-sm">Delete</button>
+        </div>
+      </div>
+
+      <p class="hint" style="margin-top:14px">Editing and deleting lock automatically once a claim is submitted, so a report cannot be changed while it is being reviewed.</p>
+    </div>
+  </div>
+</article>
+
+<!-- 10 MY CLAIMS -->
+<article class="frame-wrap">
+  <div class="frame-label">10 · My claims <span>/my-claims</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a><a href="#">Dashboard</a></nav>
+      <div class="spacer"></div>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:34px;padding-bottom:56px">
+      <h1 class="h1">My claims</h1>
+      <p class="muted" style="margin-top:8px">Every claim you have submitted, and what happened to it.</p>
+
+      <div style="display:flex;flex-direction:column;gap:16px;margin-top:26px">
+
+        <div class="card" style="padding:18px 20px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div class="thumb" style="width:72px;height:72px;flex:none">img</div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:12px"><div class="h3">Black iPhone 13</div><span class="badge b-found">APPROVED</span><span class="xs muted">submitted 2 hours ago</span></div>
+              <p class="muted small" style="margin-top:8px;line-height:1.6">Your proof: “Cracked bottom-right corner, blue case, lock screen photo of my sister, lion sticker on the back.”</p>
+              <div style="display:flex;gap:12px;margin-top:12px;align-items:center;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:10px;padding:12px 14px">
+                <div style="flex:1;font-size:14px;color:#065F46"><b>Finder:</b> Chidi O. · 0803 456 7890 · chidi.o@campus.edu.ng</div>
+                <button class="btn btn-secondary btn-sm">Message on WhatsApp</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:18px 20px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div class="thumb" style="width:72px;height:72px;flex:none">img</div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:12px"><div class="h3">Brown leather wallet</div><span class="badge b-pending">PENDING</span><span class="xs muted">submitted 3 days ago</span></div>
+              <p class="muted small" style="margin-top:8px;line-height:1.6">Your proof: “Brown leather, stitched corner repair, contains a library card and a folded receipt.”</p>
+              <div class="small muted" style="margin-top:10px">An admin is reviewing this claim.</div>
+            </div>
+            <button class="btn btn-secondary btn-sm">View item</button>
+          </div>
+        </div>
+
+        <div class="card" style="padding:18px 20px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div class="thumb" style="width:72px;height:72px;flex:none">img</div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:12px"><div class="h3">Blue umbrella</div><span class="badge b-archived">REJECTED</span><span class="xs muted">submitted 1 week ago</span></div>
+              <p class="muted small" style="margin-top:8px;line-height:1.6">Your proof: “It is blue and has a wooden handle.”</p>
+              <div style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 14px;font-size:14px;color:#991B1B">
+                <b>Reason:</b> The proof described only the colour and handle, both visible in the photo. It did not show knowledge only the owner would have.
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm">View item</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 11 PROFILE -->
+<article class="frame-wrap">
+  <div class="frame-label">11 · Profile <span>/profile</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+      <nav class="nav"><a href="#">Lost</a><a href="#">Found</a><a href="#">Dashboard</a></nav>
+      <div class="spacer"></div>
+      <div class="avatar">AJ</div>
+    </div>
+
+    <div class="container" style="padding-top:34px;padding-bottom:64px">
+      <h1 class="h1">My profile</h1>
+      <p class="muted" style="margin-top:8px">Your contact details are shared only with a student whose claim you approve.</p>
+
+      <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-top:26px;align-items:start">
+
+        <div class="card" style="padding:26px">
+          <div class="h2" style="margin-bottom:20px">Account details</div>
+
+          <div class="field"><label class="label">Full name</label><div class="input" style="color:#0F172A">Amaka Johnson</div></div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="field">
+              <label class="label">Matric number</label>
+              <div class="input" style="background:#F1F5F9;color:#64748B;justify-content:space-between">IFT/20/1234 <span class="lock">locked</span></div>
+            </div>
+            <div class="field">
+              <label class="label">Department</label>
+              <div class="input" style="color:#0F172A">Computer Science</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Campus email</label>
+            <div class="input" style="background:#F1F5F9;color:#64748B;justify-content:space-between">amaka.johnson@campus.edu.ng <span class="lock">locked</span></div>
+          </div>
+
+          <div class="field" style="margin-bottom:6px">
+            <label class="label">Phone number</label>
+            <div class="input" style="color:#0F172A">0803 123 4567</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-top:22px">
+            <button class="btn btn-primary">Save changes</button>
+            <span class="small" style="color:var(--found);font-weight:500">✓ Saved</span>
+          </div>
+
+          <p class="hint" style="margin-top:16px">Matric number and email are locked because they identify you and prove you are a student. Contact the admin to change them.</p>
+        </div>
+
+        <div class="card" style="padding:26px">
+          <div class="h2" style="margin-bottom:20px">Change password</div>
+          <div class="field"><label class="label">Current password</label><div class="input" style="color:#94A3B8">••••••••••</div></div>
+          <div class="field"><label class="label">New password</label><div class="input" style="color:#94A3B8">••••••••••</div><div class="hint">At least 8 characters.</div></div>
+          <div class="field"><label class="label">Confirm new password</label><div class="input" style="color:#94A3B8">••••••••••</div></div>
+          <button class="btn btn-secondary" style="width:100%">Update password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- 12 ADMIN DASHBOARD -->
+<article class="frame-wrap">
+  <div class="frame-label">12 · Admin dashboard <span>/admin</span></div>
+  <div class="frame">
+    <div class="admin">
+      <aside class="side">
+        <div class="brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+          Admin
+        </div>
+        <a class="sideitem active">Dashboard</a>
+        <a class="sideitem">Claims <span class="badge b-pending" style="height:20px;margin-left:auto">3</span></a>
+        <a class="sideitem">Items</a>
+        <a class="sideitem" style="margin-top:10px;color:#64748B">View public site ↗</a>
+        <div class="sidefoot">
+          <div style="font-weight:600;color:#334155">Amaka Johnson</div>
+          <div style="margin-top:2px">Administrator</div>
+          <a style="display:block;margin-top:12px;color:var(--danger);font-weight:500">Log out</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <h1 class="h1">Pending claims</h1>
+        <p class="muted" style="margin-top:8px">3 claims are waiting for review.</p>
+
+        <div class="rows" style="margin-top:22px">
+          <div class="row" style="padding:16px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Black iPhone 13</div><div class="xs muted" style="margin-top:3px">Electronics · Found 14 Nov</div></div>
+            <div style="width:170px"><div class="small" style="font-weight:500">Amaka Johnson</div><div class="xs muted">IFT/20/1234</div></div>
+            <div class="xs muted" style="width:110px">2 hours ago</div>
+            <button class="btn btn-primary btn-sm">Review</button>
+          </div>
+          <div class="row" style="padding:16px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Student ID card</div><div class="xs muted" style="margin-top:3px">ID &amp; Documents · Found 13 Nov</div></div>
+            <div style="width:170px"><div class="small" style="font-weight:500">Emeka Okafor</div><div class="xs muted">IFT/21/0987</div></div>
+            <div class="xs muted" style="width:110px">6 hours ago</div>
+            <button class="btn btn-primary btn-sm">Review</button>
+          </div>
+          <div class="row" style="padding:16px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Brown leather wallet</div><div class="xs muted" style="margin-top:3px">Wallets &amp; Bags · Found 12 Nov</div></div>
+            <div style="width:170px"><div class="small" style="font-weight:500">Fatima Sule</div><div class="xs muted">IFT/19/0455</div></div>
+            <div class="xs muted" style="width:110px">1 day ago</div>
+            <button class="btn btn-primary btn-sm">Review</button>
+          </div>
+        </div>
+
+        <div class="statgrid" style="margin-top:28px">
+          <div class="stat"><b>12</b><span>Open items</span></div>
+          <div class="stat"><b>3</b><span>Pending claims</span></div>
+          <div class="stat"><b>27</b><span>Returned</span></div>
+        </div>
+
+        <div style="display:flex;gap:14px;margin-top:28px">
+          <button class="btn btn-secondary">Manage all items</button>
+          <button class="btn btn-secondary">View archived (3)</button>
+        </div>
+      </main>
+    </div>
+  </div>
+</article>
+
+<!-- 13 CLAIM REVIEW -->
+<article class="frame-wrap">
+  <div class="frame-label">13 · Claim review <span>/admin/claims/:id</span></div>
+  <div class="frame">
+    <div class="admin">
+      <aside class="side">
+        <div class="brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+          Admin
+        </div>
+        <a class="sideitem">Dashboard</a>
+        <a class="sideitem active">Claims <span class="badge b-pending" style="height:20px;margin-left:auto">3</span></a>
+        <a class="sideitem">Items</a>
+        <a class="sideitem" style="margin-top:10px;color:#64748B">View public site ↗</a>
+        <div class="sidefoot">
+          <div style="font-weight:600;color:#334155">Amaka Johnson</div>
+          <div style="margin-top:2px">Administrator</div>
+          <a style="display:block;margin-top:12px;color:var(--danger);font-weight:500">Log out</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <a class="small muted">← Back to dashboard</a>
+        <h1 class="h1" style="margin-top:16px">Claim review</h1>
+
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-top:22px;align-items:start">
+          <div class="card" style="padding:18px">
+            <div class="thumb" style="height:250px;border-radius:10px">Item photo</div>
+            <div style="padding:16px 4px 4px">
+              <div style="display:flex;gap:10px;margin-bottom:10px"><span class="badge b-found">FOUND</span><span class="badge b-pending">CLAIM PENDING</span></div>
+              <div class="h2">Black iPhone 13</div>
+              <div class="small muted" style="margin-top:6px">Electronics · Cafeteria · Found 14 Nov 2026 · reported by Chidi O.</div>
+              <div class="h3" style="margin-top:18px">Public description</div>
+              <p class="muted small" style="margin-top:6px;line-height:1.7">Black iPhone 13 in a blue case, left charging on a table by the window. The screen is locked. I still have it.</p>
+            </div>
+          </div>
+
+          <div class="card" style="padding:18px">
+            <div class="h3" style="margin-bottom:14px">Claimant</div>
+            <div style="display:flex;gap:12px;align-items:center">
+              <div class="avatar" style="width:46px;height:46px;font-size:15px">AJ</div>
+              <div><div style="font-weight:600">Amaka Johnson</div><div class="xs muted">IFT/20/1234 · Computer Science</div></div>
+            </div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:6px;font-size:14px">
+              <div class="muted">Email <span style="color:#0F172A;margin-left:6px">amaka.johnson@campus.edu.ng</span></div>
+              <div class="muted">Phone <span style="color:#0F172A;margin-left:6px">0803 123 4567</span></div>
+            </div>
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0">
+              <div class="xs muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">Claim history</div>
+              <div class="small" style="margin-top:6px">2 previous claims · <span style="color:var(--lost);font-weight:600">1 rejected</span></div>
+            </div>
+            <div class="notebox" style="margin-top:14px;font-size:13px">A previous rejection is a signal to read this proof more carefully, not proof of fraud.</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:20px;margin-top:22px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="h3">Proof of ownership</div><span class="xs muted">submitted 2 hours ago</span>
+          </div>
+          <p style="margin-top:12px;font-size:15px;line-height:1.7">“Cracked bottom-right corner with a hairline crack, blue silicone case with a small lion sticker on the back, lock screen photo of my sister and I. Case has a scratch near the camera. I can also name the last four digits of the IMEI and the wallpaper colour.”</p>
+          <div style="margin-top:14px;padding:12px 14px;background:#F8FBFF;border:1px solid var(--border);border-radius:10px;font-size:14px">
+            <span class="muted">Serial / receipt reference:</span> <b>IMEI ending 4421</b>
+          </div>
+        </div>
+
+        <div class="card" style="padding:20px;margin-top:18px">
+          <div class="h3">Decision</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px">
+            <div>
+              <div class="label">Reason for rejection <span class="req">*</span></div>
+              <div class="input area" style="min-height:88px;color:#94A3B8">Required only if you reject. The claimant will see this.</div>
+            </div>
+            <div>
+              <div class="hint" style="margin-top:0;line-height:1.7">Approving reveals contact details to both students and marks the item RETURNED. This cannot be undone from this screen.</div>
+              <div style="display:flex;gap:12px;margin-top:16px">
+                <button class="btn btn-primary">Approve claim</button>
+                <button class="btn btn-line" disabled>Confirm rejection</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</article>
+
+<!-- 14 MANAGE ITEMS -->
+<article class="frame-wrap">
+  <div class="frame-label">14 · Manage items <span>/admin/items</span></div>
+  <div class="frame">
+    <div class="admin">
+      <aside class="side">
+        <div class="brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+          Admin
+        </div>
+        <a class="sideitem">Dashboard</a>
+        <a class="sideitem">Claims <span class="badge b-pending" style="height:20px;margin-left:auto">3</span></a>
+        <a class="sideitem active">Items</a>
+        <a class="sideitem" style="margin-top:10px;color:#64748B">View public site ↗</a>
+        <div class="sidefoot">
+          <div style="font-weight:600;color:#334155">Amaka Johnson</div>
+          <div style="margin-top:2px">Administrator</div>
+          <a style="display:block;margin-top:12px;color:var(--danger);font-weight:500">Log out</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div><h1 class="h1">All items</h1><p class="muted" style="margin-top:8px">42 items · 3 archived</p></div>
+          <div class="chip" style="height:36px">☐ Show archived (3)</div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:22px">
+          <div class="input" style="flex:1;color:#94A3B8">Search all items</div>
+          <div class="input" style="width:150px;justify-content:space-between;color:#334155">Type <span class="muted">▾</span></div>
+          <div class="input" style="width:160px;justify-content:space-between;color:#334155">Status <span class="muted">▾</span></div>
+          <div class="input" style="width:170px;justify-content:space-between;color:#334155">Category <span class="muted">▾</span></div>
+        </div>
+
+        <div class="rows" style="margin-top:20px">
+          <div class="row" style="padding:15px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Black iPhone 13</div><div class="xs muted" style="margin-top:3px">Electronics · Chidi O.</div></div>
+            <span class="badge b-found">FOUND</span><span class="badge b-returned">RETURNED</span>
+            <div class="xs muted" style="width:90px">14 Nov 2026</div>
+            <button class="btn btn-secondary btn-sm">View</button><button class="btn btn-secondary btn-sm">Archive</button>
+          </div>
+          <div class="row" style="padding:15px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Student ID card</div><div class="xs muted" style="margin-top:3px">ID &amp; Documents · Emeka O.</div></div>
+            <span class="badge b-found">FOUND</span><span class="badge b-pending">CLAIM PENDING</span>
+            <div class="xs muted" style="width:90px">13 Nov 2026</div>
+            <button class="btn btn-secondary btn-sm">View</button><button class="btn btn-secondary btn-sm">Archive</button>
+          </div>
+          <div class="row" style="padding:15px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Brown leather wallet</div><div class="xs muted" style="margin-top:3px">Wallets &amp; Bags · Fatima S.</div></div>
+            <span class="badge b-found">FOUND</span><span class="badge b-pending">CLAIM PENDING</span>
+            <div class="xs muted" style="width:90px">12 Nov 2026</div>
+            <button class="btn btn-secondary btn-sm">View</button><button class="btn btn-secondary btn-sm">Archive</button>
+          </div>
+          <div class="row" style="padding:15px 18px">
+            <div class="thumb" style="width:56px;height:56px">img</div>
+            <div style="flex:1"><div class="h3">Blue umbrella</div><div class="xs muted" style="margin-top:3px">Accessories · Amaka J.</div></div>
+            <span class="badge b-lost">LOST</span><span class="badge b-pending">OPEN</span>
+            <div class="xs muted" style="width:90px">10 Nov 2026</div>
+            <button class="btn btn-secondary btn-sm">View</button><button class="btn btn-secondary btn-sm">Archive</button>
+          </div>
+          <div class="row" style="padding:15px 18px;background:#FAFCFF">
+            <div class="thumb" style="width:56px;height:56px;opacity:.6">img</div>
+            <div style="flex:1"><div class="h3" style="color:#64748B">Fake designer bag</div><div class="xs muted" style="margin-top:3px">Accessories · Ibrahim K.</div></div>
+            <span class="badge b-found">FOUND</span><span class="badge b-archived">ARCHIVED</span>
+            <div class="xs muted" style="width:90px">9 Nov 2026</div>
+            <button class="btn btn-secondary btn-sm">View</button><button class="btn btn-secondary btn-sm">Restore</button>
+          </div>
+        </div>
+
+        <div class="notebox" style="margin-top:18px">
+          <b>Archive, not delete.</b> Archiving hides an item from public listings and keeps its claim history, and it can be undone. Deleting would destroy the record of who claimed what.
+        </div>
+      </main>
+    </div>
+  </div>
+</article>
+
+<!-- 15 404 -->
+<article class="frame-wrap">
+  <div class="frame-label">15 · Not found <span>*</span></div>
+  <div class="frame">
+    <div class="tb">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        Campus Lost &amp; Found
+      </div>
+    </div>
+    <div style="padding:130px 0;text-align:center">
+      <div style="font-size:120px;font-weight:700;color:#C7DBF5;line-height:1;letter-spacing:-.03em">404</div>
+      <h1 class="h1" style="margin-top:18px">That page does not exist</h1>
+      <p class="muted" style="margin-top:10px">The link may be wrong, or the item may have been archived or removed.</p>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:28px">
+        <button class="btn btn-primary">Go to the home page</button>
+        <button class="btn btn-secondary">Browse found items</button>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- MOBILE ROW -->
+<article class="frame-wrap">
+  <div class="frame-label">16 · Mobile <span>390 × 844 — landing, list with filter drawer, detail, claim</span></div>
+  <div class="mob-row">
+
+    <!-- M1 landing -->
+    <div class="frame frame-m" style="min-height:844px">
+      <div style="height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/><circle cx="8.5" cy="8.5" r="1.6"/></svg>
+        <div style="font-size:15px;font-weight:700;color:var(--primary-strong)">Campus L&amp;F</div>
+        <div class="spacer"></div>
+        <div style="width:34px;height:34px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:16px;height:2px;background:#334155;box-shadow:0 5px 0 #334155,0 -5px 0 #334155"></div>
+        </div>
+      </div>
+
+      <div style="padding:28px 18px">
+        <h1 style="font-size:28px;line-height:1.2;font-weight:700;color:var(--primary-strong);letter-spacing:-.015em">Lost something on campus?</h1>
+        <p class="muted" style="font-size:15px;line-height:1.6;margin-top:12px">Report it. Someone may already have found it.</p>
+
+        <div style="background:#fff;border:1px solid var(--border);border-radius:12px;margin-top:20px;display:flex;align-items:center;padding:0 12px;height:48px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span class="muted small" style="margin-left:10px">Search lost &amp; found items</span>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;margin-top:14px">I lost an item</button>
+        <button class="btn btn-secondary btn-lg" style="width:100%;margin-top:10px">I found an item</button>
+
+        <div class="h2" style="margin-top:30px;font-size:17px">Recently found</div>
+        <div style="display:flex;gap:12px;margin-top:12px;overflow:hidden">
+          <div class="itemcard" style="width:170px;flex:none"><div class="thumb" style="height:110px">photo</div><div style="padding:10px 12px"><span class="badge b-found">FOUND</span><div style="font-weight:600;font-size:14px;margin-top:8px">Black iPhone 13</div><div class="muted xs" style="margin-top:3px">Cafeteria</div></div></div>
+          <div class="itemcard" style="width:170px;flex:none"><div class="thumb" style="height:110px">photo</div><div style="padding:10px 12px"><span class="badge b-found">FOUND</span><div style="font-weight:600;font-size:14px;margin-top:8px">Student ID card</div><div class="muted xs" style="margin-top:3px">Lecture Hall B</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M2 list with drawer -->
+    <div class="frame frame-m" style="min-height:844px;position:relative">
+      <div style="height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px">
+        <div style="font-size:15px;font-weight:700;color:var(--primary-strong)">Campus L&amp;F</div>
+        <div class="spacer"></div>
+        <div style="width:34px;height:34px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:16px;height:2px;background:#334155;box-shadow:0 5px 0 #334155,0 -5px 0 #334155"></div>
+        </div>
+      </div>
+
+      <div style="padding:20px 16px">
+        <h1 style="font-size:24px;font-weight:700;color:var(--primary-strong)">Lost items</h1>
+        <p class="muted xs" style="margin-top:5px">24 open reports</p>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <div style="flex:1;height:44px;background:#fff;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;padding:0 12px;color:#94A3B8;font-size:14px">Search</div>
+          <button class="btn btn-secondary" style="height:44px;padding:0 14px">Filters <span class="badge b-pending" style="height:20px">2</span></button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px;overflow:hidden">
+          <span class="chip" style="font-size:12px">Electronics ×</span><span class="chip" style="font-size:12px">Library ×</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+          <div class="itemcard"><div class="thumb" style="height:150px">photo</div><div style="padding:12px 14px"><div style="display:flex;justify-content:space-between"><span class="badge b-lost">LOST</span><span class="muted xs">2 days ago</span></div><div style="font-weight:600;margin-top:8px">Black iPhone 13</div><div class="muted xs" style="margin-top:3px">Electronics · Library</div></div></div>
+          <div class="itemcard"><div class="thumb" style="height:150px">photo</div><div style="padding:12px 14px"><div style="display:flex;justify-content:space-between"><span class="badge b-lost">LOST</span><span class="muted xs">5 days ago</span></div><div style="font-weight:600;margin-top:8px">Student ID card</div><div class="muted xs" style="margin-top:3px">ID &amp; Documents · Lecture Hall B</div></div></div>
+        </div>
+      </div>
+
+      <!-- drawer -->
+      <div style="position:absolute;inset:0;background:rgba(15,23,42,.35)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 26px">
+        <div style="width:40px;height:4px;border-radius:2px;background:#CBD5E1;margin:0 auto 18px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:17px;font-weight:700">Filters</div>
+          <div class="small" style="color:var(--primary);font-weight:600">Clear all</div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="label">Category</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="chip" style="background:var(--primary);color:#fff;border-color:var(--primary)">Electronics</span>
+            <span class="chip">ID &amp; Documents</span><span class="chip">Wallets &amp; Bags</span>
+            <span class="chip">Keys</span><span class="chip">Books</span><span class="chip">Other</span>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="label">Location</div>
+          <div class="input" style="color:#0F172A">Library</div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="label">Date reported</div>
+          <div style="display:flex;gap:8px">
+            <span class="chip" style="height:36px">Any time</span>
+            <span class="chip" style="height:36px;background:var(--primary);color:#fff;border-color:var(--primary)">Last 7 days</span>
+            <span class="chip" style="height:36px">Last 30 days</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;margin-top:24px">Show 8 results</button>
+      </div>
+    </div>
+
+    <!-- M3 detail -->
+    <div class="frame frame-m" style="min-height:844px">
+      <div style="height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px">
+        <span class="small muted">← Back</span>
+      </div>
+      <div class="thumb" style="height:240px;border-radius:0">Item photo</div>
+      <div style="padding:18px 16px 26px">
+        <div style="display:flex;gap:8px"><span class="badge b-found">FOUND</span><span class="badge b-pending">OPEN</span></div>
+        <h1 style="font-size:24px;font-weight:700;color:var(--primary-strong);margin-top:12px;line-height:1.2">Black iPhone 13</h1>
+        <div class="small muted" style="margin-top:6px">Electronics · Cafeteria · 14 Nov 2026</div>
+        <div class="small muted" style="margin-top:2px">Reported by Chidi O.</div>
+
+        <p class="muted small" style="margin-top:16px;line-height:1.7">Black iPhone 13 in a blue case, left charging on a table by the window. The screen is locked. I still have it.</p>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;margin-top:20px">This is mine — submit a claim</button>
+
+        <div class="notebox" style="margin-top:14px;font-size:12px;line-height:1.6">Contact details are hidden until an admin approves a claim.</div>
+      </div>
+    </div>
+
+    <!-- M4 claim -->
+    <div class="frame frame-m" style="min-height:844px">
+      <div style="height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px">
+        <span class="small muted">← Back to item</span>
+      </div>
+      <div style="padding:18px 16px 26px">
+        <h1 style="font-size:24px;font-weight:700;color:var(--primary-strong);line-height:1.2">Prove this is yours</h1>
+        <p class="muted small" style="margin-top:8px;line-height:1.6">Describe features a stranger could not know. Do not repeat the public description.</p>
+
+        <div class="card" style="padding:12px;margin-top:16px;display:flex;gap:12px;align-items:center">
+          <div class="thumb" style="width:56px;height:56px;flex:none">img</div>
+          <div><div style="font-size:14px;font-weight:600">Black iPhone 13</div><div class="muted xs" style="margin-top:3px">Electronics · Cafeteria</div></div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="label">Your proof of ownership *</div>
+          <div class="input area" style="min-height:140px;color:#64748B">Describe marks, contents, or anything the finder never photographed.</div>
+          <div style="display:flex;justify-content:space-between"><div class="hint">Minimum 30 characters</div><div class="hint">0 / 1000</div></div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="label">Serial or receipt reference (optional)</div>
+          <div class="input" style="color:#94A3B8">IMEI, receipt number…</div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:12px;background:#fff;border:1px solid var(--border);border-radius:10px;margin-top:16px">
+          <div style="width:18px;height:18px;border:2px solid var(--primary);border-radius:4px;flex:none"></div>
+          <div class="xs muted" style="line-height:1.5">I confirm this is my property. False claims may be reported.</div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;margin-top:18px">Submit claim</button>
+        <button class="btn btn-secondary btn-lg" style="width:100%;margin-top:10px">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+</div>
+</body>
+</html>

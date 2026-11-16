@@ -1,0 +1,1163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campus Lost &amp; Found — Team Work Plan</title>
+<style>
+  /* Self-hosted so the PDF embeds the real typeface instead of a fallback */
+  @font-face{font-family:'Inter';src:url('fonts/Inter.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+  @font-face{font-family:'JetBrains Mono';src:url('fonts/JetBrainsMono.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+  :root{
+    --primary:#1E40AF; --primary-strong:#1E3A8A; --found:#15803D; --lost:#B45309;
+    --muted:#475569; --border:#BFDBFE; --danger:#DC2626;
+    --ink:#0F172A; --line:#DCE7F7; --slate:#334155; --accent:#1E40AF;
+  }
+  @page{ size:A4; margin:14mm 13mm 13mm; }
+  @media screen{
+    html{background:#E7ECF3}
+    body{width:210mm;margin:26px auto;background:#fff;padding:14mm 13mm 13mm;box-shadow:0 10px 40px rgba(15,23,42,.12)}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:Inter,-apple-system,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    font-size:10pt; line-height:1.5; color:var(--ink); -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,p,ul,ol{margin:0}
+  ul,ol{padding-left:1.05em} li{margin:.15em 0}
+  code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:8.2pt}
+  .sec-start{break-before:page}
+  .eyebrow{font-size:7.5pt;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--primary)}
+  .h1{font-size:20pt;line-height:1.15;font-weight:700;color:var(--primary-strong);letter-spacing:-.015em}
+  .h2{font-size:12.5pt;font-weight:700;color:var(--primary-strong);letter-spacing:-.01em}
+  .h3{font-size:10pt;font-weight:700}
+  .muted{color:var(--muted)} .small{font-size:8.8pt} .xs{font-size:7.8pt}
+  .lead{font-size:10.5pt;line-height:1.55;color:var(--muted)}
+  .mt6{margin-top:6px}.mt8{margin-top:8px}.mt10{margin-top:10px}.mt14{margin-top:14px}
+  .mt18{margin-top:18px}.mt24{margin-top:24px}.mt30{margin-top:30px}
+  .box{border:1px solid var(--line);border-radius:9px;padding:11px 13px;break-inside:avoid}
+  .box-tint{background:#F5F9FF}
+  .box-warn{background:#FFFBEB;border-color:#FDE68A}
+  .box-info{background:#EFF6FF;border-color:var(--border)}
+  .box-ok{background:#F0FDF4;border-color:#BBF7D0}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+  /* cover */
+  .cover{padding-top:8mm}
+  .cover-brand{display:flex;align-items:center;gap:10px;margin-bottom:26mm}
+  .cover-brand b{font-size:12pt;color:var(--primary-strong);letter-spacing:-.01em}
+  .cover h1{font-size:34pt;line-height:1.05;font-weight:700;color:var(--primary-strong);letter-spacing:-.025em;margin-top:8px}
+  .cover .sub{font-size:19pt;font-weight:600;color:var(--primary);margin-top:6px;letter-spacing:-.01em}
+  .cover .tag{font-size:11pt;color:var(--muted);margin-top:12px;max-width:118mm;line-height:1.6}
+  .pcard{border:1px solid var(--line);border-radius:10px;padding:12px;border-top:4px solid var(--accent)}
+  .pcard .who{font-size:7.5pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .pcard .nm{font-size:12pt;font-weight:700;margin-top:3px}
+  .pcard .ds{font-size:8.8pt;color:var(--muted);margin-top:5px;line-height:1.45}
+  .cover-foot{margin-top:26mm;border-top:1px solid var(--line);padding-top:10px;display:flex;justify-content:space-between;font-size:8.5pt;color:var(--muted)}
+
+  /* person band */
+  .band{background:var(--accent);color:#fff;border-radius:11px;padding:14px 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+  .band .lab{font-size:7.5pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+  .band .nm{font-size:22pt;font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-top:2px}
+  .band .jb{font-size:9pt;opacity:.92;margin-top:4px;max-width:120mm;line-height:1.45}
+  .band .meta{text-align:right;font-size:8pt;opacity:.9;white-space:nowrap}
+
+  .track{margin-top:16px}
+  .track-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--accent);padding-bottom:4px;margin-bottom:10px}
+  .track-head h3{font-size:11.5pt;font-weight:700;color:var(--accent);letter-spacing:-.01em}
+  .track-head span{font-size:7.8pt;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+
+  .task{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:9px 11px;margin-bottom:8px;break-inside:avoid}
+  .task .top{display:flex;gap:8px;align-items:baseline}
+  .task .num{font-family:"JetBrains Mono",monospace;font-size:8.2pt;font-weight:500;color:#fff;background:var(--accent);border-radius:4px;padding:1px 5px;flex:none}
+  .task .tt{font-size:9.8pt;font-weight:700}
+  .task p{font-size:9.2pt;line-height:1.5;margin-top:4px;color:#1E293B}
+  .task .rowm{display:flex;gap:6px;margin-top:6px;font-size:8pt;line-height:1.45}
+  .task .rowm b{flex:none;font-weight:600;color:var(--slate);min-width:72px}
+  .task .rowm .v{color:var(--muted)}
+  .task .rowm code{background:#F1F5F9;border-radius:3px;padding:0 3px;color:#334155}
+
+  table{width:100%;border-collapse:collapse;font-size:8.6pt}
+  th{text-align:left;font-weight:700;font-size:7.6pt;letter-spacing:.07em;text-transform:uppercase;color:var(--slate);background:#F5F9FF;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:5px 8px;border-bottom:1px solid #EDF2FA;vertical-align:top;line-height:1.45}
+  tr{break-inside:avoid}
+  td code{background:#F1F5F9;border-radius:3px;padding:0 3px}
+
+  .tree{font-family:"JetBrains Mono",monospace;font-size:7.9pt;line-height:1.65;background:#0F172A;color:#E2E8F0;border-radius:9px;padding:11px 13px;white-space:pre;break-inside:avoid}
+  .tree .c{color:#94A3B8}
+
+  .steps{counter-reset:s;display:grid;gap:8px}
+  .step{display:flex;gap:10px;align-items:flex-start}
+  .step .n{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+  .step .t b{font-size:9.5pt}
+  .step .t p{font-size:8.8pt;color:var(--muted);line-height:1.45;margin-top:2px}
+
+  .check{list-style:none;padding:0}
+  .check li{display:flex;gap:7px;align-items:flex-start;font-size:8.8pt;padding:4px 0;border-bottom:1px dotted #E2E8F0}
+  .check li:last-child{border-bottom:0}
+  .check .bx{width:11px;height:11px;border:1.4px solid #94A3B8;border-radius:2px;flex:none;margin-top:2px}
+  .check .note{margin-left:auto;text-align:right;color:#94A3B8;font-size:7.6pt;white-space:nowrap}
+
+  .pill{display:inline-block;font-size:7.4pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:1.5px 7px}
+  .p-open{background:#DBEAFE;color:#1E40AF}
+  .p-pend{background:#FEF3C7;color:#B45309}
+  .p-ret{background:#DCFCE7;color:#15803D}
+  .p-arch{background:#F1F5F9;color:#475569}
+  .p-rej{background:#FEE2E2;color:#B91C1C}
+  .p-none{background:#F1F5F9;color:#64748B}
+  .tag{display:inline-block;font-size:7.4pt;font-weight:700;padding:1px 6px;border-radius:4px;background:#EFF6FF;color:var(--primary);border:1px solid var(--border)}
+
+  .gloss dt{font-weight:700;font-size:9pt;margin-top:6px}
+  .gloss dd{margin:0;font-size:8.8pt;color:var(--muted);line-height:1.45}
+  .nowrap{white-space:nowrap}
+  h1,h2,h3,h4{break-after:avoid}
+  .track-head,.task .top,.band{break-after:avoid}
+  tr,th,td,.pcard,.gloss,.tree,.box{break-inside:avoid}
+</style>
+</head>
+<body>
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="cover-brand">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 3 11.9V5a2 2 0 0 1 2-2h6.9c.5 0 1 .2 1.4.6l7.3 7.3a2 2 0 0 1 0 2.5Z"/>
+      <circle cx="8.5" cy="8.5" r="1.6"/>
+    </svg>
+    <b>Campus Lost &amp; Found</b>
+  </div>
+
+  <p class="eyebrow">IFT305 · Software Engineering Mini Project</p>
+  <h1>Team Work Plan</h1>
+  <p class="sub">Three people. Three sections. One project.</p>
+  <p class="tag">Every person's work is written as a separate section, in plain English. Open the page with your name on it, do the jobs in order, and hand your files in exactly as the last page of your section says.</p>
+
+  <div class="cols3 mt30">
+    <div class="pcard" style="--accent:#1E40AF">
+      <div class="who">Section A</div>
+      <div class="nm">Person A</div>
+      <div class="ds">The frame, the accounts, the server core, the core tables.</div>
+    </div>
+    <div class="pcard" style="--accent:#15803D">
+      <div class="who">Section B</div>
+      <div class="nm">Person B</div>
+      <div class="ds">Browsing and searching, item data, item photos, claims tables.</div>
+    </div>
+    <div class="pcard" style="--accent:#B45309">
+      <div class="who">Section C</div>
+      <div class="nm">Person C</div>
+      <div class="ds">Forms and messages, student pages, the whole claim flow.</div>
+    </div>
+  </div>
+
+  <div class="box box-info mt24">
+    <div class="h3">Read only your own section</div>
+    <p class="small mt6">Your section is complete on its own. It lists your jobs, the files you own, and the exact format to submit in. The two appendices at the back are for everybody: Appendix A holds the addresses and data shapes we all share, Appendix B is for whoever combines the work at the end.</p>
+  </div>
+
+  <div class="cover-foot">
+    <span>Version 1.0 · November 2026</span>
+    <span>Sections A, B, C · Appendices A, B</span>
+  </div>
+</section>
+
+<!-- ============ HOW TO USE ============ -->
+<section class="sec-start">
+  <p class="eyebrow">Start here</p>
+  <h1 class="h1 mt6">How to use this plan</h1>
+  <p class="lead mt8">Four steps. It takes about five minutes to read.</p>
+
+  <div class="steps mt18">
+    <div class="step"><div class="n">1</div><div class="t">
+      <b>Find your section.</b>
+      <p>Section A, B or C. Each one begins with a coloured band carrying your name. If you print this, the band colour tells you whose pages you are holding.</p>
+    </div></div>
+    <div class="step"><div class="n">2</div><div class="t">
+      <b>Read the two boxes at the top of your section.</b>
+      <p>"Your job in one sentence" and "Before you start". They tell you what you are building and what has to exist before you can begin.</p>
+    </div></div>
+    <div class="step"><div class="n">3</div><div class="t">
+      <b>Do your tasks in the order they are numbered.</b>
+      <p>Every task says what to build, which files are yours, and how you know you have finished. Do not jump ahead.</p>
+    </div></div>
+    <div class="step"><div class="n">4</div><div class="t">
+      <b>Hand in using the last page of your section.</b>
+      <p>That page gives the exact file names and folders. If you invent your own file names, the work cannot be combined.</p>
+    </div></div>
+  </div>
+
+  <h2 class="h2 mt24">The five rules that keep us from breaking each other's work</h2>
+  <ol class="mt8 small" style="line-height:1.55">
+    <li><b>One file, one owner.</b> Every file in this plan belongs to exactly one person. If a file is not in your task list, it is not yours.</li>
+    <li><b>Never edit someone else's file.</b> Need a change there? Ask the owner. They make it. This one rule prevents almost every merge problem.</li>
+    <li><b>Agree before you build.</b> The addresses, data shapes and component names are fixed in Appendix A. If something must change, change the appendix first, then tell the team, then write the code.</li>
+    <li><b>One job, one owner, start to finish.</b> You own a whole page or a whole module — its look, its logic and its data calls. Not "all the styling" or "all the buttons".</li>
+    <li><b>Never merge your own branch.</b> Someone else merges it. That is the cheapest review you will ever get.</li>
+  </ol>
+
+  <div class="cols2 mt18">
+    <div class="box box-warn">
+      <div class="h3">Never send these</div>
+      <ul class="small mt6">
+        <li><code>node_modules</code> — it is thousands of files and rebuilds itself.</li>
+        <li><code>.env</code> — it holds passwords and keys.</li>
+        <li>The whole project folder — send only the files you own.</li>
+        <li>Photos or screenshots <i>of</i> your code. Send the actual text file.</li>
+        <li>Word documents containing code. Word changes quotation marks and breaks the file.</li>
+      </ul>
+    </div>
+    <div class="box box-ok">
+      <div class="h3">Always send these</div>
+      <ul class="small mt6">
+        <li>Your code as real <code>.jsx</code>, <code>.js</code> or <code>.sql</code> files.</li>
+        <li>Proof it works: screenshots or response output, named the way your hand-in page says.</li>
+        <li>Your <code>NOTES.md</code>, even if you finished everything — write "nothing missing".</li>
+        <li>Your checklist page, filled in and dated.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box box-tint mt18">
+    <div class="h3">Why the work happens in this order</div>
+    <p class="small mt6"><b>Frontend first, then database, then backend.</b> The frontend needs no database because it runs on fake data, so it can start today and the design can be checked early. The database must be finished before the backend, because the backend is the code that writes the SQL — if the tables keep changing underneath it, every query gets written twice. Person C has no database tasks, so during that stage C writes the test script and does the phone-sized screen pass.</p>
+  </div>
+</section>
+
+<!-- ============ WHO DOES WHAT ============ -->
+<section class="sec-start">
+  <p class="eyebrow">The whole picture</p>
+  <h1 class="h1 mt6">Who does what</h1>
+  <p class="lead mt8">Three stages, three people. Nobody waits for anybody, because the work is cut by area rather than by layer.</p>
+
+  <table class="mt18">
+    <tr><th style="width:16%">Stage</th><th style="width:28%">Person A</th><th style="width:28%">Person B</th><th style="width:28%">Person C</th></tr>
+    <tr>
+      <td><b>1 · Frontend</b><br><span class="xs muted">7 pages each, on fake data</span></td>
+      <td>Project frame, routes, layouts, fake data, register / login / profile, admin dashboard and manage items</td>
+      <td>Display components, landing page, lost + found lists, item detail, report form, search hooks</td>
+      <td>Form components, validation, student dashboard, my reports, my claims, submit claim, claim review</td>
+    </tr>
+    <tr>
+      <td><b>2 · Database</b><br><span class="xs muted">Person A and B only</span></td>
+      <td>users, categories, items tables; indexes; category seed; README and ERD</td>
+      <td>claims table; the two unique rules; demo seed; constraint proof</td>
+      <td><span class="muted">No tables.</span> Writes the end-to-end test script and checks every screen at 390px wide</td>
+    </tr>
+    <tr>
+      <td><b>3 · Backend</b><br><span class="xs muted">The server and its endpoints</span></td>
+      <td>Express frame, error format, database pool, login checks, accounts and profile endpoints</td>
+      <td>Items create / edit / delete, search, photo upload, categories, admin items and counters</td>
+      <td>Claims create, my claims, admin queue, approve and reject in one transaction, contact release</td>
+    </tr>
+  </table>
+
+  <div class="cols2 mt18">
+    <div>
+      <h2 class="h2">How the work is weighted</h2>
+      <p class="small muted mt6">Weight is effort, not number of screens. One page with five states counts more than two pages that only display text.</p>
+      <table class="mt10">
+        <tr><th>Person</th><th class="nowrap">Frontend</th><th class="nowrap">Backend</th><th class="nowrap">Database</th><th class="nowrap">Total</th></tr>
+        <tr><td><b>A</b></td><td>12.5</td><td>8.5</td><td>3.5</td><td><b>24.5</b></td></tr>
+        <tr><td><b>B</b></td><td>13.5</td><td>8.0</td><td>3.5</td><td><b>25.0</b></td></tr>
+        <tr><td><b>C</b></td><td>13.5</td><td>8.5</td><td>—</td><td><b>22.0</b></td></tr>
+      </table>
+      <p class="xs muted mt8">Person C carries less because C owns the full end-to-end claim test in the last stage and drives the demonstration. That is a real task, not spare time.</p>
+    </div>
+    <div>
+      <h2 class="h2">The four gates</h2>
+      <p class="small muted mt6">A gate is a short check that must pass before the next stage starts. If a gate fails, fix it — do not push on.</p>
+      <table class="mt10">
+        <tr><th>Gate</th><th>Passes when</th></tr>
+        <tr><td><b>1 · After frontend</b></td><td>All 15 pages open on fake data, in every state, at 390px and 1440px</td></tr>
+        <tr><td><b>2 · After database</b></td><td>Scripts run from empty, and each rule provably rejects bad data</td></tr>
+        <tr><td><b>3 · After backend</b></td><td>Every address in Appendix A answers with the right code and shape</td></tr>
+        <tr><td><b>4 · After combining</b></td><td>The full journey works with the fake data switched off</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="box box-tint mt18">
+    <div class="h3">What a "finished" task looks like in this project</div>
+    <p class="small mt6">Not "it works on my machine". Finished means: it matches the design in <span class="mono">design/mockups.html</span>; it shows a loading, an empty, an error and a filled state; it works with a narrow window; you can reach every control with the Tab key; there are no red errors in the browser console; and one other person has looked at it.</p>
+  </div>
+</section>
+<!-- ============ SECTION A ============ -->
+<section class="sec-start" style="--accent:#1E40AF">
+  <div class="band">
+    <div>
+      <div class="lab">Section A</div>
+      <div class="nm">Person A</div>
+      <div class="jb">The frame everything sits inside, the accounts people log in with, the server core, and the three base tables.</div>
+    </div>
+    <div class="meta">15 tasks<br>3 stages<br>No blockers</div>
+  </div>
+
+  <div class="cols2 mt18">
+    <div class="box box-info">
+      <div class="h3">Your job in one sentence</div>
+      <p class="small mt6">You build the empty frame and the front door, then the floor everything stands on — and at the end you are the person who combines the three people's work.</p>
+    </div>
+    <div class="box box-warn">
+      <div class="h3">Before you start</div>
+      <ul class="small mt6">
+        <li>Read <span class="mono">design/mockups.html</span> screens 01–15. It is the visual truth.</li>
+        <li>Nothing blocks you. You go first.</li>
+        <li>You are the only person who edits <span class="mono">routes.jsx</span> and <span class="mono">app.js</span>. Everyone else asks you.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 1 — Frontend</h3><span>7 tasks · fake data</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">A1</span><span class="tt">Build the project frame</span></div>
+      <p>Create the React project with Vite, add Tailwind for styling and React Router for the addresses. Put the colour values and the Inter font from the design into one global stylesheet, so every page inherits them.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/vite.config.js</code> · <code>client/src/main.jsx</code> · <code>client/src/App.jsx</code> · <code>client/src/index.css</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v"><span class="mono">npm run dev</span> opens a page with the pale blue background and Inter text, and no console errors.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A2</span><span class="tt">Write the route table</span></div>
+      <p>One file that lists every address in the app and which page component loads for it. This is the file that would otherwise be edited by all three of you — so it is yours alone.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/routes.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">All 15 addresses in Appendix A open something. Placeholders are fine at this point.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A3</span><span class="tt">Build the two layouts</span></div>
+      <p>The top bar for public and student pages, with the logo, the Lost/Found links and the avatar. The sidebar for admin pages, with the menu and the pending-claims count. Both leave a space in the middle where a page goes.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/components/layout/</code> — <code>TopBar.jsx</code>, <code>SideBar.jsx</code>, <code>PublicLayout.jsx</code>, <code>StudentLayout.jsx</code>, <code>AdminLayout.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Matches screens 01–11 (top bar) and 12–14 (sidebar), and the underline follows the page you are on.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A4</span><span class="tt">Write the connecting layer</span></div>
+      <p>One file that all pages call when they need data. In stage 1 it returns the fake data. In stage 3 it calls the real server. A single switch changes between the two — no page should ever know which mode it is in.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/lib/api.js</code> · <code>format.js</code> (dates, "2 days ago") · <code>constants.js</code> (categories, statuses)</span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">A list page can show items without importing anything from the fake data folder directly.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A5</span><span class="tt">Write the fake data</span></div>
+      <p>Users, items, claims and categories that the other two build against until the server exists. It must cover the unhappy cases too: an open item, an item with a pending claim, a returned item, an archived item, and a rejected claim with a written reason.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/mocks/</code> — <code>users.js</code>, <code>items.js</code>, <code>claims.js</code>, <code>categories.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">The shapes match Appendix A exactly. Person B and C can build a page without asking you a question.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A6</span><span class="tt">Build register, login and profile</span></div>
+      <p>Register checks the matric number format and the campus email ending. Profile lets a student change their name, department and phone, but shows matric number and email as locked, because those prove who they are.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/auth/Register.jsx</code> · <code>Login.jsx</code> · <code>Profile.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screens 06, 07 and 11 match, and an error appears only after leaving the field or pressing submit — never while typing the first character.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A7</span><span class="tt">Build the admin pages and the 404</span></div>
+      <p>The admin dashboard shows the pending claim queue and three counters. Manage items lists everything, with archive and restore. The 404 page catches any address that does not exist.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/admin/Dashboard.jsx</code> · <code>Items.jsx</code> · <code>client/src/pages/NotFound.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screens 12, 14 and 15 match, and the queue shows the three fake claims from A5.</span></div>
+    </div>
+  </div>
+
+  <div class="track" style="margin-top:0">
+    <div class="track-head"><h3>Stage 2 — Database</h3><span>4 tasks · you and Person B</span></div>
+
+    <div class="box box-warn" style="margin-bottom:10px">
+      <p class="small"><b>You go first in this stage, for twenty minutes only.</b> Write <span class="mono">01</span> before Person B writes <span class="mono">03</span>, because the claims table points at your users and items tables. After those twenty minutes you work in parallel — the exact column names are already agreed in Appendix A, so neither of you has to wait.</p>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A8</span><span class="tt">Create the three base tables</span></div>
+      <p>users, categories and items, with names, types, limits and rules. Rules live here, not only in the code: a status column that only accepts three values, a matric number that cannot repeat, a type column that only accepts lost or found.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/01_users_categories_items.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Running it on an empty database creates all three tables, and inserting a bad status like <span class="mono">'SOLD'</span> is refused by the database.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A9</span><span class="tt">Add the search indexes</span></div>
+      <p>Indexes on the columns the lists filter by: type, status, archive flag, category and date. An index is a lookup table that lets the database find rows without reading every one. Justify each one you add — an index that nothing queries only slows down writing.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/02_indexes.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Each index has a one-line comment saying which screen uses it.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A10</span><span class="tt">Seed the eight categories</span></div>
+      <p>The fixed list from the design: Electronics, ID Cards &amp; Documents, Wallets &amp; Bags, Keys, Books &amp; Stationery, Clothing, Accessories, Other. Written so running it twice does not create duplicates.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/04_seed_reference.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Running the file twice still leaves exactly eight rows.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A11</span><span class="tt">Write the README and draw the ERD</span></div>
+      <p>A short README saying how to create the database, run the files in order and start over. Plus an entity-relationship diagram: four boxes for the four tables, with lines showing which column points at which.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/README.md</code> · <span class="mono">A-erd.png</span></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Someone with a fresh machine can follow the README and end up with a working database, and the diagram matches the real tables — not the plan you started with.</span></div>
+    </div>
+  </div>
+</section>
+<!-- ============ SECTION A · BACKEND + HAND-IN ============ -->
+<section class="sec-start" style="--accent:#1E40AF">
+  <!-- BACKEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 3 — Backend</h3><span>4 tasks · starts after gate 2</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">A12</span><span class="tt">Build the server frame</span></div>
+      <p>The Express app, a health address that proves the server is alive, one single error format used by every failure, and the connection to PostgreSQL. You go first here: Person B and C cannot run anything until this works.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/app.js</code> · <code>server.js</code> · <code>config/env.js</code> · <code>db/pool.js</code> · <code>middleware/error.js</code> · <code>utils/response.js</code> · <code>.env.example</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v"><span class="mono">GET /api/health</span> returns <span class="mono">{"ok":true}</span>, and a deliberately broken address returns the standard error shape from Appendix A.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A13</span><span class="tt">Build the two door checks</span></div>
+      <p>Two small middlewares. One says "this request must carry a valid login token". The other says "and that token must belong to an admin". Every protected address uses one of them.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/middleware/auth.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">No token gives 401. A student token on an <span class="mono">/admin</span> address gives 403, not 200 and not 500.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A14</span><span class="tt">Build the accounts endpoints</span></div>
+      <p>Register, login and "who am I". Passwords are stored only as a one-way hash — never as readable text. Register repeats the same matric number and email checks the browser does, because the browser can be bypassed.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/auth/</code> — <code>routes.js</code>, <code>controller.js</code>, <code>service.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">All three addresses answer with the right code and shape, and the database stores the hash, not the password.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">A15</span><span class="tt">Build profile update and password change</span></div>
+      <p>A student can change name, department and phone. Matric number and email are rejected by the server even if someone crafts the request by hand. Password change requires the current password first.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/users/</code> — <code>routes.js</code>, <code>controller.js</code>, <code>service.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Sending <span class="mono">matric_no</span> in the body is silently ignored, and a wrong current password gives 400 with a clear message.</span></div>
+    </div>
+  </div>
+
+  <!-- HAND IN -->
+  <div class="track">
+    <div class="track-head"><h3>Your hand-in</h3><span>exact formats — do not rename</span></div>
+
+    <p class="small muted">You hand in three separate zips, one per stage, plus a branch name if the team uses git. Each zip keeps the same folder paths as the project, so the files drop straight in when we combine.</p>
+
+    <table class="mt10">
+      <tr><th style="width:24%">What</th><th style="width:30%">Format</th><th>File name</th></tr>
+      <tr><td>Frontend code</td><td>Real <code>.jsx</code> / <code>.js</code> text files, in a zip</td><td><code>IFT305_A_frontend.zip</code></td></tr>
+      <tr><td>Frontend proof</td><td><code>.png</code> screenshots, one per page at 1440px and 390px wide</td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Backend code</td><td>Real <code>.js</code> text files, in a zip</td><td><code>IFT305_A_backend.zip</code></td></tr>
+      <tr><td>Backend proof</td><td><code>.png</code> of each response, plus <code>results.txt</code> listing address and status code</td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Database</td><td>Plain <code>.sql</code> text files, in a zip</td><td><code>IFT305_A_database.zip</code></td></tr>
+      <tr><td>Diagram</td><td><code>.png</code> exported at 2× size (or <code>.pdf</code>)</td><td><code>A-erd.png</code></td></tr>
+      <tr><td>Notes</td><td><code>.md</code> plain text</td><td><code>NOTES.md</code> in every zip</td></tr>
+      <tr><td>If using git</td><td>Branch, pushed to the shared repo</td><td><code>fe/a</code> · <code>be/a</code> · <code>db/a</code></td></tr>
+    </table>
+
+    <div class="cols2 mt14">
+      <div>
+        <div class="h3">What the zip must look like</div>
+<div class="tree mt8">IFT305_A_frontend.zip
+├── NOTES.md
+├── client/
+│   └── src/
+│       ├── main.jsx
+│       ├── App.jsx
+│       ├── routes.jsx
+│       ├── components/layout/
+│       ├── pages/auth/
+│       ├── pages/admin/
+│       ├── lib/
+│       └── mocks/
+└── evidence/
+    ├── A-Login-1440.png
+    ├── A-Login-390.png
+    └── A-Dashboard-1440.png</div>
+        <p class="xs muted mt6">Screenshot names: <span class="mono">A-PageName-width.png</span>. No spaces in file names, ever.</p>
+      </div>
+      <div>
+        <div class="h3">NOTES.md — copy this exactly</div>
+<div class="tree mt8"># Person A — notes
+
+Stage: frontend / database / backend
+Finished:
+- ...
+Not finished, and why:
+- ...
+What the next person must know:
+- ...
+Fake data I invented that is not
+in Appendix A:
+- ...</div>
+        <p class="xs muted mt6">The last line matters most. Anything you invented that is not in Appendix A is a bug waiting to happen in someone else's file.</p>
+      </div>
+    </div>
+
+    <div class="box box-ok mt14">
+      <div class="h3">Your checklist — fill this in and send it with the zips</div>
+      <ul class="check mt8">
+        <li><span class="bx"></span><span>All 15 addresses open; nothing is a dead link</span><span class="note">Gate 1</span></li>
+        <li><span class="bx"></span><span>Every page checked with the window at 390px, 768px and 1440px</span></li>
+        <li><span class="bx"></span><span>Fake data covers open, pending, returned, archived and rejected</span><span class="note">A5</span></li>
+        <li><span class="bx"></span><span><span class="mono">routes.jsx</span> still has no edits from anyone else</span><span class="note">Rule 1</span></li>
+        <li><span class="bx"></span><span>Database runs from empty on a fresh database, in file order</span><span class="note">Gate 2</span></li>
+        <li><span class="bx"></span><span>ERD matches the tables as built, not as planned</span></li>
+        <li><span class="bx"></span><span>No token → 401, student on admin → 403</span><span class="note">A13</span></li>
+        <li><span class="bx"></span><span><span class="mono">NOTES.md</span> present in all three zips</span></li>
+      </ul>
+      <div class="mt10 small" style="display:flex;gap:26px;color:#334155">
+        <span>Name: <span class="mono">_______________________</span></span>
+        <span>Date: <span class="mono">____________</span></span>
+        <span>Branches: <span class="mono">__________________</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ SECTION B ============ -->
+<section class="sec-start" style="--accent:#15803D">
+  <div class="band">
+    <div>
+      <div class="lab">Section B</div>
+      <div class="nm">Person B</div>
+      <div class="jb">Everything a visitor sees and searches: the pieces every page reuses, the listings, the item page, and the item data behind them.</div>
+    </div>
+    <div class="meta">15 tasks<br>3 stages<br>Needs A1–A2</div>
+  </div>
+
+  <div class="cols2 mt18">
+    <div class="box box-info">
+      <div class="h3">Your job in one sentence</div>
+      <p class="small mt6">You build the shelf and everything standing on it — the components every page reuses, the two listings, and the page where someone decides "that's mine".</p>
+    </div>
+    <div class="box box-warn">
+      <div class="h3">Before you start</div>
+      <ul class="small mt6">
+        <li>Wait for Person A's A1 and A2. You cannot build a page without a frame and a route.</li>
+        <li>Read screens 01, 02, 03, 05 of <span class="mono">design/mockups.html</span> — those are yours.</li>
+        <li>Appendix A holds the item shape. Your fake data must match it, or the swap to the real server breaks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 1 — Frontend</h3><span>6 tasks · fake data</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">B1</span><span class="tt">Build the display components</span></div>
+      <p>Seven small pieces used on many pages: a card, a coloured badge, a status badge, an item card, a loading skeleton, an empty state, and the photo uploader. Once you finish these the props are frozen — Person C builds forms against them.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/components/ui/</code> — <code>Card.jsx</code>, <code>Badge.jsx</code>, <code>StatusBadge.jsx</code>, <code>ItemCard.jsx</code>, <code>Skeleton.jsx</code>, <code>EmptyState.jsx</code>, <code>PhotoUploader.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">One page shows every component in every state. <span class="mono">StatusBadge</span> is the <b>only</b> place a status becomes words and colour — no page hardcodes "RETURNED" itself.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B2</span><span class="tt">Build the landing page</span></div>
+      <p>The first page anyone sees. A headline, a search box, two big buttons (I lost something / I found something), three "how it works" steps, and four recently found items pulled from your item card.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/Home.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 01 matches at 1440px and 390px, and the search box works before anyone has logged in.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B3</span><span class="tt">Build the lost and found listings</span></div>
+      <p>One page component used twice: once for lost items, once for found items, with different words and a different badge colour. A search box, a category filter, removable filter chips, and the mobile filter drawer with a count on the button.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/items/Listing.jsx</code> · <code>client/src/pages/items/Lost.jsx</code> · <code>Found.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 02 and the mobile drawer on screen 16 match, and filtering changes the visible cards without reloading the page.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B4</span><span class="tt">Build the item detail page</span></div>
+      <p>The hardest page you own, because it changes shape depending on who is looking and what state the item is in. Five cases: not logged in, the owner looking at their own item, open with no claim, a claim already pending, and already returned. Each shows different buttons.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/items/ItemDetail.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 03 matches, all five cases are reachable with fake data, and contact details never appear on this page.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B5</span><span class="tt">Build the report item form</span></div>
+      <p>One form with a Lost / Found switch at the top. Title, category, date, description, place, and one photo. Above the description sits the warning that stops people publishing the detail that would prove ownership.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/items/Report.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 05 matches, the photo rejects a file over 2 MB before it uploads, and switching Lost/Found changes the labels and the submit button.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B6</span><span class="tt">Write the search hooks</span></div>
+      <p>Two small shared functions. One waits until the person stops typing before searching, so you do not fire a request per keystroke. The other keeps the filters in the address bar so a filtered list can be shared or reloaded.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/lib/useFilters.js</code> · <code>client/src/lib/useDebounce.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Typing six letters fires one search, not six, and reloading the page keeps the same filters applied.</span></div>
+    </div>
+  </div>
+
+  <div class="track" style="margin-top:0">
+    <div class="track-head"><h3>Stage 2 — Database</h3><span>4 tasks · you and Person A</span></div>
+
+    <div class="box box-warn" style="margin-bottom:10px">
+      <p class="small"><b>Start twenty minutes after Person A.</b> Your claims table points at their users and items tables, so those must exist first. The exact column names are already agreed in Appendix A — you do not need to wait to write your file, only to run it.</p>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B7</span><span class="tt">Create the claims table</span></div>
+      <p>The table that holds "student X says item Y is theirs", with the proof text, an optional serial or receipt reference, the decision, the reason, and who decided it and when. A claim must be at least 30 characters of proof — enforced by the database.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/03_claims.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Inserting a 12-character proof is refused, and a rejected claim with no reason is refused.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B8</span><span class="tt">Add the two rules that carry the design</span></div>
+      <p>Two unique indexes. One stops a student claiming the same item twice, ever. The other stops two claims being pending on one item at the same time. Only one of them is a partial index — explain in a comment why it has a <span class="mono">WHERE</span> clause.</p>
+      <div class="rowm"><b>Your files</b><span class="v">inside <code>database/03_claims.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">The database itself refuses both cases, even when the code tries to allow them. This is the strongest evidence in the whole report.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B9</span><span class="tt">Seed the demo data</span></div>
+      <p>Enough rows for every screen to look real: two students, two admins, one item in each state, an approved claim with contact release, and a rejected claim with a written reason. Photos are optional — a null photo shows the placeholder, which is also a state worth seeing.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/05_seed_demo.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">After seeding, every screen in the design can be shown without inventing data on the spot.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B10</span><span class="tt">Prove the rules actually work</span></div>
+      <p>A file of deliberate bad inserts that <i>must</i> fail, each wrapped so the script keeps going and prints PASS or FAIL. This turns "we added a constraint" into evidence you can screenshot into the report.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>database/06_verify_constraints.sql</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Every check prints PASS on a clean database, and the output is saved as <span class="mono">B-db-proof.txt</span>.</span></div>
+    </div>
+  </div>
+</section>
+<!-- ============ SECTION B · BACKEND + HAND-IN ============ -->
+<section class="sec-start" style="--accent:#15803D">
+  <!-- BACKEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 3 — Backend</h3><span>5 tasks · starts after gate 2</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">B11</span><span class="tt">Build the item endpoints</span></div>
+      <p>Create an item with a photo, edit it, delete it. The guards are the point: edit and delete are allowed only while the item is open and nobody has claimed it. Every SQL value is passed as a parameter, never glued into the text.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/items/</code> — <code>routes.js</code>, <code>controller.js</code>, <code>service.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Editing an item that has a claim returns 409. Editing someone else's item returns 403. No query is built by joining strings.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B12</span><span class="tt">Build search and filtering</span></div>
+      <p>Turn the query parameters from the address into one SQL statement: type, words, category, place, date range, status. Archived items never appear on a public list. Say exactly how you built the statement — this is a chapter-three answer.</p>
+      <div class="rowm"><b>Your files</b><span class="v">inside <code>modules/items/</code> — <code>query.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Filtering by a category and a date range together returns only the rows that match both, and an empty filter returns everything open.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B13</span><span class="tt">Build the photo upload</span></div>
+      <p>Accept one photo per item, JPG or PNG only, up to 2 MB. Check the file type on the server, not just in the browser — renaming a file is easy. Store the file and save only its path in the database.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/middleware/upload.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">A 3 MB file and a <span class="mono">.pdf</span> are both refused with a clear message, and a valid photo appears on the item page.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B14</span><span class="tt">Build the categories endpoint</span></div>
+      <p>One public address that returns the eight categories. Small, but it proves your module pattern works the same way as everyone else's.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/categories/</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v"><span class="mono">GET /api/categories</span> returns eight rows and needs no token.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">B15</span><span class="tt">Build admin items and the counters</span></div>
+      <p>The admin list sees every item including archived ones. Archive hides an item from the public site and can be undone. The counters feed the three numbers on the admin dashboard.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/admin/items.js</code> · <code>stats.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Archiving removes the item from the public list but keeps it in the admin list with its claim history, and the three counters match the rows in the database.</span></div>
+    </div>
+  </div>
+
+  <!-- HAND IN -->
+  <div class="track">
+    <div class="track-head"><h3>Your hand-in</h3><span>exact formats — do not rename</span></div>
+
+    <p class="small muted">Same shape as Person A's three zips. One zip per stage, folder paths identical to the project so the files drop straight in.</p>
+
+    <table class="mt10">
+      <tr><th style="width:24%">What</th><th style="width:30%">Format</th><th>File name</th></tr>
+      <tr><td>Frontend code</td><td>Real <code>.jsx</code> / <code>.js</code> text files, in a zip</td><td><code>IFT305_B_frontend.zip</code></td></tr>
+      <tr><td>Frontend proof</td><td><code>.png</code>, one per page at 1440px and 390px</td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Backend code</td><td>Real <code>.js</code> text files, in a zip</td><td><code>IFT305_B_backend.zip</code></td></tr>
+      <tr><td>Backend proof</td><td><code>.png</code> of each response, plus <code>results.txt</code></td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Database</td><td>Plain <code>.sql</code> text files, in a zip</td><td><code>IFT305_B_database.zip</code></td></tr>
+      <tr><td>Constraint proof</td><td>Plain <code>.txt</code> output of your verify script</td><td><code>B-db-proof.txt</code></td></tr>
+      <tr><td>Notes</td><td><code>.md</code> plain text</td><td><code>NOTES.md</code> in every zip</td></tr>
+      <tr><td>If using git</td><td>Branch, pushed to the shared repo</td><td><code>fe/b</code> · <code>be/b</code> · <code>db/b</code></td></tr>
+    </table>
+
+    <div class="cols2 mt14">
+      <div>
+        <div class="h3">What the zip must look like</div>
+<div class="tree mt8">IFT305_B_database.zip
+├── NOTES.md
+├── B-db-proof.txt
+├── database/
+│   ├── 03_claims.sql
+│   ├── 05_seed_demo.sql
+│   └── 06_verify_constraints.sql
+└── evidence/
+    ├── B-06-verify-run.png
+    └── B-claims-table.png</div>
+        <p class="xs muted mt6">Do not include Person A's <span class="mono">01</span>, <span class="mono">02</span> or <span class="mono">04</span> files. If you needed to change one of them, say so in <span class="mono">NOTES.md</span> — do not edit it yourself.</p>
+      </div>
+      <div>
+        <div class="h3">NOTES.md — copy this exactly</div>
+<div class="tree mt8"># Person B — notes
+
+Stage: frontend / database / backend
+Finished:
+- ...
+Not finished, and why:
+- ...
+What the next person must know:
+- ...
+Columns I added that are not
+in Appendix A:
+- ...</div>
+        <p class="xs muted mt6">That last line is the one that protects the backend people. A column nobody knows about is a 404 waiting to happen.</p>
+      </div>
+    </div>
+
+    <div class="box box-ok mt14">
+      <div class="h3">Your checklist — fill this in and send it with the zips</div>
+      <ul class="check mt8">
+        <li><span class="bx"></span><span>Every component in B1 has a loading, empty and filled state</span></li>
+        <li><span class="bx"></span><span><span class="mono">StatusBadge</span> is used everywhere; no page hardcodes a status word</span></li>
+        <li><span class="bx"></span><span>Item detail shows all five cases with fake data</span></li>
+        <li><span class="bx"></span><span>No contact detail appears on any public page</span><span class="note">Design rule</span></li>
+        <li><span class="bx"></span><span>Every page checked at 390px, 768px and 1440px</span></li>
+        <li><span class="bx"></span><span>Both unique rules reject bad data — screenshot saved</span><span class="note">B10</span></li>
+        <li><span class="bx"></span><span>Seed runs after <span class="mono">01</span>–<span class="mono">04</span> without an error</span><span class="note">B9</span></li>
+        <li><span class="bx"></span><span>No SQL statement built by joining strings</span></li>
+        <li><span class="bx"></span><span><span class="mono">NOTES.md</span> present in all three zips</span></li>
+      </ul>
+      <div class="mt10 small" style="display:flex;gap:26px;color:#334155">
+        <span>Name: <span class="mono">_______________________</span></span>
+        <span>Date: <span class="mono">____________</span></span>
+        <span>Branches: <span class="mono">__________________</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ SECTION C ============ -->
+<section class="sec-start" style="--accent:#B45309">
+  <div class="band" style="background:#92400E">
+    <div>
+      <div class="lab">Section C</div>
+      <div class="nm">Person C</div>
+      <div class="jb">Forms, feedback and the claim flow — the part of the app that does something WhatsApp cannot do.</div>
+    </div>
+    <div class="meta">14 tasks<br>3 stages<br>Needs C1 first</div>
+  </div>
+
+  <div class="cols2 mt18">
+    <div class="box box-info">
+      <div class="h3">Your job in one sentence</div>
+      <p class="small mt6">You build every place a student types something, and the whole path from "this is mine" to the admin's decision — including the moment two strangers get each other's phone number.</p>
+    </div>
+    <div class="box box-warn">
+      <div class="h3">Before you start</div>
+      <ul class="small mt6">
+        <li>Wait for Person A's A1 and A2 (frame and routes).</li>
+        <li>Read screens 04, 08, 09, 10, 13 of <span class="mono">design/mockups.html</span> — those are yours.</li>
+        <li>You have no database tables. That is deliberate: in stage 2 you write the test script instead.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 1 — Frontend</h3><span>7 tasks · fake data</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">C1</span><span class="tt">Build the form components</span></div>
+      <p>Eight pieces every form is made of: a button, an input, a select, a textarea, a checkbox, a spinner, a toast message, and a confirm dialog. Do these first and quickly — Person B and A are waiting on the button.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/components/ui/</code> — <code>Button.jsx</code>, <code>Input.jsx</code>, <code>Select.jsx</code>, <code>Textarea.jsx</code>, <code>Checkbox.jsx</code>, <code>Spinner.jsx</code>, <code>Toast.jsx</code>, <code>ConfirmDialog.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Props match Appendix A, an input shows label + hint + error together, and the toast can be fired from anywhere with one line.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C2</span><span class="tt">Write the validation rules</span></div>
+      <p>One file of checks that every form shares: is it filled, is it long enough, does the matric number look right, does the email end in the campus domain. The server repeats these checks later — the browser's copy is for speed, not for safety.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/lib/validation.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Every rule returns either "fine" or one plain-English sentence. No rule throws an error the user cannot read.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C3</span><span class="tt">Build the student dashboard</span></div>
+      <p>The page a student lands on after logging in. It carries the "needs your attention" banner — the only place a student learns that a claim was approved or rejected, because we have no notifications. Plus three counters and the last few reports and claims.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/student/Dashboard.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 08 matches, and the banner shows an approval, a rejection and nothing at all — three real cases.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C4</span><span class="tt">Build my reports</span></div>
+      <p>Every item this student has reported, with filter chips and a claim count. Edit and delete are visible only while the item is open and unclaimed; after that they are replaced by a small "locked" note that explains why.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/student/MyReports.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 09 matches, and the locked state explains itself instead of hiding the buttons silently.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C5</span><span class="tt">Build my claims</span></div>
+      <p>Every claim this student has made, with the proof they wrote, the decision, and — only when approved — the finder's name, phone and email. A rejected claim shows the admin's reason in full, not abbreviated.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/claims/MyClaims.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 10 matches in all three states: approved with contact, pending, rejected with reason.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C6</span><span class="tt">Build the submit claim page</span></div>
+      <p>The most important form in the project. A small card showing the item, then the proof box: minimum 30 characters, maximum 1000, with a live count. Plus the optional serial reference, the confirmation checkbox, and a plain explanation of what happens next.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/claims/SubmitClaim.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 04 and mobile screen 4 match, the submit button stays disabled under 30 characters, and the checkbox cannot be skipped.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C7</span><span class="tt">Build the admin claim review page</span></div>
+      <p>The admin's desk. Item and public description on the left, claimant details and claim history on the right, the proof underneath, and the decision at the bottom. Rejecting requires a written reason; approving does not.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>client/src/pages/claims/ReviewClaim.jsx</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Screen 13 matches, "Confirm rejection" stays disabled until a reason is typed, and the claimant's previous rejection is shown as a warning, not as an accusation.</span></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-head"><h3>Stage 2 — your task while A and B write SQL</h3><span>2 jobs · no tables</span></div>
+
+    <div class="box box-info" style="margin-bottom:10px">
+      <p class="small">You own no tables. That is not spare time — you do the two jobs that need the app to exist and nobody else has time for. Both of these become chapters in the final report.</p>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C8</span><span class="tt">Write the end-to-end test script</span></div>
+      <p>Before the backend exists, write down the journey step by step with the exact address, the exact input and the exact answer you expect. Then in stage 3 you run it and fill in what actually happened. Writing it first is what makes it a test rather than a demonstration.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>docs/test-plan.md</code> → handed in as <span class="mono">C-test-plan.md</span></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">At least 12 steps, each with expected result written before it is run, including four that must fail on purpose.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C9</span><span class="tt">Check every screen at 390px wide</span></div>
+      <p>Take all 15 screens down to phone width and fix what breaks: tables that overflow, buttons that squash, the filter drawer that will not close. Person A and B fix their own pages — you find and list the problems, they repair them.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>C-mobile-audit.md</code> + screenshots</span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Every screen has a 390px screenshot, and the audit lists each problem with the page name and the owner.</span></div>
+    </div>
+  </div>
+  <!-- BACKEND -->
+  <div class="track">
+    <div class="track-head"><h3>Stage 3 — Backend</h3><span>5 tasks · starts after gate 2</span></div>
+
+    <div class="task">
+      <div class="top"><span class="num">C10</span><span class="tt">Build submit claim and my claims</span></div>
+      <p>Create a claim on an item, and list the claims belonging to the logged-in student. Contact details are added to the response only when the claim is approved — the query decides that, not the page.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>server/src/modules/claims/</code> — <code>routes.js</code>, <code>controller.js</code>, <code>service.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">A pending claim returns no contact field at all, and a 25-character proof returns 400 with the field name.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C11</span><span class="tt">Build the admin claim queue</span></div>
+      <p>The list of claims waiting for a decision, oldest first, and the detail the review page needs: the claim, the item, the claimant, and how many claims that student has made before and how many were rejected.</p>
+      <div class="rowm"><b>Your files</b><span class="v">inside <code>modules/claims/</code> — <code>admin.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">The queue excludes decided claims, and the detail returns the previous-claim counts without a second request.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C12</span><span class="tt">Build approve and reject — in one transaction</span></div>
+      <p>Approving does three things at once: marks the claim approved, marks the item returned, and unlocks contact details. If any one of the three fails, all three are undone. This is the one place in the project where a half-finished write would leave the database lying.</p>
+      <div class="rowm"><b>Your files</b><span class="v">inside <code>modules/claims/</code> — <code>decision.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">You can show a forced failure rolling back, and rejecting without a reason returns 400.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C13</span><span class="tt">Build the claim block rules</span></div>
+      <p>The refusals that keep the flow honest: you cannot claim your own item, you cannot claim an item that is not open, and you cannot claim the same item twice. The database enforces the last one — your job is to return a sentence a student can understand instead of a raw database error.</p>
+      <div class="rowm"><b>Your files</b><span class="v">inside <code>modules/claims/</code> — <code>rules.js</code></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Each refusal returns 409 with its own code and a sentence written for a student, not for a developer.</span></div>
+    </div>
+
+    <div class="task">
+      <div class="top"><span class="num">C14</span><span class="tt">Run the end-to-end claim test</span></div>
+      <p>With the fake data switched off, walk the whole journey and write down what happened: two accounts, a found report, a claim, an approval, contact details visible on both sides, and an item that can no longer be edited.</p>
+      <div class="rowm"><b>Your files</b><span class="v"><code>docs/test-report.md</code> → handed in as <span class="mono">C-e2e-test.md</span></span></div>
+      <div class="rowm"><b>Finished when</b><span class="v">Every step has the address called, the code returned and a screenshot. This file becomes Chapter Five of the report.</span></div>
+    </div>
+  </div>
+</section>
+<!-- ============ SECTION C · HAND-IN ============ -->
+<div style="--accent:#B45309">
+
+  <!-- HAND IN -->
+  <div class="track" style="break-before:page">
+    <div class="track-head"><h3>Your hand-in</h3><span>exact formats — do not rename</span></div>
+
+    <p class="small muted">You hand in fewer zips than the others but more writing, because your stage 2 work becomes the evidence chapter. Same naming rule throughout: <span class="mono">IFT305_&lt;letter&gt;_&lt;stage&gt;</span>.</p>
+
+    <table class="mt10">
+      <tr><th style="width:24%">What</th><th style="width:30%">Format</th><th>File name</th></tr>
+      <tr><td>Frontend code</td><td>Real <code>.jsx</code> / <code>.js</code> text files, in a zip</td><td><code>IFT305_C_frontend.zip</code></td></tr>
+      <tr><td>Frontend proof</td><td><code>.png</code>, one per page at 1440px and 390px</td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Backend code</td><td>Real <code>.js</code> text files, in a zip</td><td><code>IFT305_C_backend.zip</code></td></tr>
+      <tr><td>Backend proof</td><td><code>.png</code> of each response, plus <code>results.txt</code></td><td>inside the zip, <code>evidence/</code></td></tr>
+      <tr><td>Test plan</td><td><code>.md</code> plain text</td><td><code>C-test-plan.md</code></td></tr>
+      <tr><td>Test results</td><td><code>.md</code> plain text, filled in after running</td><td><code>C-e2e-test.md</code></td></tr>
+      <tr><td>Mobile audit</td><td><code>.md</code> plus <code>.png</code> screenshots in a folder</td><td><code>IFT305_C_mobile.zip</code></td></tr>
+      <tr><td>Notes</td><td><code>.md</code> plain text</td><td><code>NOTES.md</code> in every zip</td></tr>
+      <tr><td>If using git</td><td>Branch, pushed to the shared repo</td><td><code>fe/c</code> · <code>be/c</code></td></tr>
+    </table>
+
+    <div class="cols2 mt14">
+      <div>
+        <div class="h3">What the zip must look like</div>
+<div class="tree mt8">IFT305_C_frontend.zip
+├── NOTES.md
+├── client/
+│   └── src/
+│       ├── components/ui/
+│       │   ├── Button.jsx
+│       │   ├── Input.jsx
+│       │   └── ...
+│       ├── lib/validation.js
+│       ├── pages/student/
+│       └── pages/claims/
+└── evidence/
+    ├── C-MyClaims-1440.png
+    └── C-SubmitClaim-390.png</div>
+        <p class="xs muted mt6">Do not include <span class="mono">Card.jsx</span> or <span class="mono">ItemCard.jsx</span> — those are Person B's files. If you need a change in one, ask.</p>
+      </div>
+      <div>
+        <div class="h3">Test result format — copy this</div>
+<div class="tree mt8">## Step 4 — claim a found item
+Address: POST /api/items/12/claims
+Input: proof, 312 characters
+Expected: 201, status PENDING
+Actual: 201, status PENDING
+Result: PASS
+Evidence: C-04-claim-201.png
+
+## Step 5 — claim the same item again
+Expected: 409 CLAIM_ALREADY_EXISTS
+Actual: 409 CLAIM_ALREADY_EXISTS
+Result: PASS</div>
+        <p class="xs muted mt6">One block per step. Expected written <i>before</i> running — that is the difference between a test and a description.</p>
+      </div>
+    </div>
+
+    <div class="cols2 mt14">
+      <div class="box box-ok">
+        <div class="h3">Your checklist</div>
+        <ul class="check mt8">
+          <li><span class="bx"></span><span>Button, Input and Select handed over on day one</span><span class="note">Blocks all</span></li>
+          <li><span class="bx"></span><span>Submit claim: disabled under 30 characters, counted live</span></li>
+          <li><span class="bx"></span><span>Review claim: rejection impossible without a reason</span></li>
+          <li><span class="bx"></span><span>Approved claim shows contact; pending and rejected never do</span></li>
+          <li><span class="bx"></span><span>Approve + item status + contact release proven to roll back together</span></li>
+          <li><span class="bx"></span><span>Every claim refusal returns 409 and a readable sentence</span></li>
+          <li><span class="bx"></span><span>12+ test steps, 4 of them failures, each with a screenshot</span></li>
+          <li><span class="bx"></span><span>All 15 screens checked at 390px, problems listed with owners</span></li>
+          <li><span class="bx"></span><span><span class="mono">NOTES.md</span> present in every zip</span></li>
+        </ul>
+      </div>
+      <div class="box box-tint">
+        <div class="h3">Why you carry two points less</div>
+        <p class="small mt6">Your frontend and backend load equals the others. You have no database tables, so those points sit elsewhere — but your stage 2 work produces the test chapter and the mobile pass, which nobody else can do while the SQL is being written.</p>
+        <p class="small mt6">You also drive the demonstration at the end. Rehearse it twice. It is the one part of this project that can fail in front of an examiner despite working perfectly the day before.</p>
+        <div class="mt10 small" style="display:flex;gap:26px;color:#334155">
+          <span>Name: <span class="mono">_____________________</span></span>
+          <span>Date: <span class="mono">__________</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============ APPENDIX A ============ -->
+<section class="sec-start" style="--accent:#334155">
+  <p class="eyebrow">Appendix A · everybody reads this</p>
+  <h1 class="h1 mt6">The things we all share</h1>
+  <p class="lead mt8">Addresses, data shapes and component names. If you need to change anything on these pages, change it here first, tell the other two, then write the code.</p>
+
+  <h2 class="h2 mt18">A.1 · The four item states</h2>
+  <table class="mt8">
+    <tr><th style="width:16%">State</th><th style="width:30%">What it means</th><th style="width:26%">What the student sees</th><th>What the server allows</th></tr>
+    <tr><td><span class="pill p-open">OPEN</span></td><td>Reported, nothing claimed yet</td><td>Normal item page, claim button, edit and delete visible to the owner</td><td>Claim, edit, delete, archive</td></tr>
+    <tr><td><span class="pill p-pend">CLAIM_PENDING</span></td><td>One claim is waiting for a decision</td><td>Claim button becomes "claim under review"; edit and delete replaced by "locked"</td><td>Admin decision only. No new claim, no edit</td></tr>
+    <tr><td><span class="pill p-ret">RETURNED</span></td><td>The claim was approved and the item went back</td><td>Contact block for the two parties; no claim button</td><td>Archive only</td></tr>
+    <tr><td><span class="pill p-arch">ARCHIVED</span></td><td><b>A flag, not a state.</b> The item keeps its status but disappears from public lists</td><td>404 if a public visitor opens the link; visible to admin with a Restore button</td><td>Restore only</td></tr>
+  </table>
+  <p class="xs muted mt6"><b>Why archived is a flag and not a fourth status:</b> an item can be returned <i>and</i> archived at the same time. If both lived in one column you would have to pick one and lose the other. Two columns, two questions, no conflict.</p>
+
+  <h2 class="h2 mt18">A.2 · The three claim states</h2>
+  <table class="mt8">
+    <tr><th style="width:16%">State</th><th style="width:34%">Who moves it there</th><th>Notes</th></tr>
+    <tr><td><span class="pill p-pend">PENDING</span></td><td>The student, by submitting proof</td><td>Sets the item to CLAIM_PENDING. Only one may exist per item.</td></tr>
+    <tr><td><span class="pill p-ret">APPROVED</span></td><td>The admin</td><td>Sets the item to RETURNED and unlocks contact details for both parties. One transaction.</td></tr>
+    <tr><td><span class="pill p-rej">REJECTED</span></td><td>The admin, with a written reason</td><td>Returns the item to OPEN. The same student can never claim that item again.</td></tr>
+  </table>
+
+  <h2 class="h2 mt18">A.3 · Every address in the app</h2>
+  <p class="small muted">All server addresses start with <span class="mono">/api</span>. "Student" means a valid login token. "Admin" means a valid token belonging to an admin.</p>
+  <table class="mt8">
+    <tr><th style="width:9%">Method</th><th style="width:26%">Address</th><th style="width:11%">Who</th><th style="width:14%">Owner</th><th>What it does</th></tr>
+    <tr><td><code>GET</code></td><td><code>/health</code></td><td>any</td><td>A</td><td>Is the server alive</td></tr>
+    <tr><td><code>POST</code></td><td><code>/auth/register</code></td><td>any</td><td>A</td><td>Create a student account</td></tr>
+    <tr><td><code>POST</code></td><td><code>/auth/login</code></td><td>any</td><td>A</td><td>Log in, receive a token</td></tr>
+    <tr><td><code>GET</code></td><td><code>/auth/me</code></td><td>student</td><td>A</td><td>Who am I</td></tr>
+    <tr><td><code>PATCH</code></td><td><code>/users/me</code></td><td>student</td><td>A</td><td>Change name, department, phone</td></tr>
+    <tr><td><code>PATCH</code></td><td><code>/users/me/password</code></td><td>student</td><td>A</td><td>Change password</td></tr>
+    <tr><td><code>GET</code></td><td><code>/categories</code></td><td>any</td><td>B</td><td>The eight categories</td></tr>
+    <tr><td><code>GET</code></td><td><code>/items</code></td><td>any</td><td>B</td><td>List, search, filter</td></tr>
+    <tr><td><code>GET</code></td><td><code>/items/:id</code></td><td>any</td><td>B</td><td>One item, plus what this visitor may do</td></tr>
+    <tr><td><code>POST</code></td><td><code>/items</code></td><td>student</td><td>B</td><td>Create an item with one photo</td></tr>
+    <tr><td><code>PATCH</code></td><td><code>/items/:id</code></td><td>owner</td><td>B</td><td>Edit while open and unclaimed</td></tr>
+    <tr><td><code>DELETE</code></td><td><code>/items/:id</code></td><td>owner</td><td>B</td><td>Delete while open and unclaimed</td></tr>
+    <tr><td><code>POST</code></td><td><code>/items/:id/claims</code></td><td>student</td><td>C</td><td>Submit proof of ownership</td></tr>
+    <tr><td><code>GET</code></td><td><code>/claims/mine</code></td><td>student</td><td>C</td><td>My claims, with contact if approved</td></tr>
+    <tr><td><code>GET</code></td><td><code>/admin/claims</code></td><td>admin</td><td>C</td><td>The queue, filtered by status</td></tr>
+    <tr><td><code>GET</code></td><td><code>/admin/claims/:id</code></td><td>admin</td><td>C</td><td>Everything needed to decide</td></tr>
+    <tr><td><code>PATCH</code></td><td><code>/admin/claims/:id</code></td><td>admin</td><td>C</td><td>Approve, or reject with a reason</td></tr>
+    <tr><td><code>GET</code></td><td><code>/admin/items</code></td><td>admin</td><td>B</td><td>All items, archived included</td></tr>
+    <tr><td><code>PATCH</code></td><td><code>/admin/items/:id</code></td><td>admin</td><td>B</td><td>Archive or restore</td></tr>
+    <tr><td><code>GET</code></td><td><code>/admin/stats</code></td><td>admin</td><td>B</td><td>Three dashboard counters</td></tr>
+  </table>
+
+  <h2 class="h2 mt18">A.4 · The data shapes</h2>
+  <p class="small muted">Fake data, server responses and form submissions must all use these exact field names. A renamed field is the most common way three people's work fails to combine.</p>
+  <div class="cols2 mt8">
+<div class="tree">item = {
+  id, type: 'lost' | 'found',
+  title, category_id, category_name,
+  description, occurred_on, location,
+  photo_url, is_archived,
+  status: 'OPEN' | 'CLAIM_PENDING'
+        | 'RETURNED',
+  reporter: { id, full_name },
+  created_at
+}</div>
+<div class="tree">claim = {
+  id, item_id,
+  status: 'PENDING' | 'APPROVED'
+        | 'REJECTED',
+  proof, serial_reference,
+  rejection_reason, created_at,
+  item: { ...item },
+  claimant: { ...user },
+  contact?: { full_name, phone, email }
+}</div>
+  </div>
+  <div class="tree mt8">user = { id, full_name, matric_no, department, email, phone, role: 'student' | 'admin' }</div>
+
+  <h2 class="h2 mt18">A.5 · Errors look the same everywhere</h2>
+  <div class="cols2 mt8">
+<div class="tree">{ "error": {
+    "code": "CLAIM_ALREADY_EXISTS",
+    "message": "You have already
+       claimed this item.",
+    "fields": { "proof": "..." }
+} }</div>
+    <div>
+      <table>
+        <tr><th style="width:26%">Code</th><th>Means</th></tr>
+        <tr><td><code>400</code></td><td>A field is missing or wrong</td></tr>
+        <tr><td><code>401</code></td><td>No token, or it has expired</td></tr>
+        <tr><td><code>403</code></td><td>Logged in, but not allowed here</td></tr>
+        <tr><td><code>404</code></td><td>Not found, or archived</td></tr>
+        <tr><td><code>409</code></td><td>A rule says no (already claimed, item not open)</td></tr>
+        <tr><td><code>500</code></td><td>Something broke that we did not expect</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="h2 mt18">A.6 · The component list</h2>
+  <table class="mt8">
+    <tr><th style="width:20%">Component</th><th style="width:10%">Owner</th><th>Props</th></tr>
+    <tr><td><code>Button</code></td><td>C</td><td><code>variant</code> primary/secondary/ghost/danger · <code>size</code> sm/md/lg · <code>loading</code> · <code>disabled</code></td></tr>
+    <tr><td><code>Input</code></td><td>C</td><td><code>label</code> · <code>hint</code> · <code>error</code> · <code>required</code></td></tr>
+    <tr><td><code>Select</code></td><td>C</td><td><code>label</code> · <code>options[{value,label}]</code> · <code>error</code> · <code>required</code></td></tr>
+    <tr><td><code>Textarea</code></td><td>C</td><td><code>label</code> · <code>hint</code> · <code>error</code> · <code>maxLength</code> · <code>showCount</code></td></tr>
+    <tr><td><code>Checkbox</code></td><td>C</td><td><code>label</code> · <code>hint</code> · <code>error</code></td></tr>
+    <tr><td><code>Spinner</code></td><td>C</td><td><code>size</code></td></tr>
+    <tr><td><code>Toast</code></td><td>C</td><td><code>toast.success(msg)</code> · <code>toast.error(msg)</code>, fired from anywhere</td></tr>
+    <tr><td><code>ConfirmDialog</code></td><td>C</td><td><code>open</code> · <code>title</code> · <code>description</code> · <code>confirmLabel</code> · <code>tone</code> · <code>onConfirm</code> · <code>onCancel</code></td></tr>
+    <tr><td><code>Card</code></td><td>B</td><td><code>padded</code> · children</td></tr>
+    <tr><td><code>Badge</code></td><td>B</td><td><code>tone</code> · children</td></tr>
+    <tr><td><code>StatusBadge</code></td><td>B</td><td><code>status</code> — the only place a status becomes words and colour</td></tr>
+    <tr><td><code>ItemCard</code></td><td>B</td><td><code>item</code> · <code>showStatus</code></td></tr>
+    <tr><td><code>Skeleton</code></td><td>B</td><td><code>variant</code> card/row/text · <code>count</code></td></tr>
+    <tr><td><code>EmptyState</code></td><td>B</td><td><code>title</code> · <code>description</code> · <code>action</code></td></tr>
+    <tr><td><code>PhotoUploader</code></td><td>B</td><td><code>value</code> · <code>onChange</code> · <code>maxSizeMB</code></td></tr>
+  </table>
+
+  <h2 class="h2 mt18">A.7 · Words we use the same way</h2>
+  <div class="cols2">
+    <dl class="gloss">
+      <dt>Endpoint</dt><dd>One address on the server that does one job, for example <span class="mono">/api/items</span>.</dd>
+      <dt>Middleware</dt><dd>Code that runs before the main job — a door check, for example "is this person logged in".</dd>
+      <dt>Token</dt><dd>A long string proving you logged in, stored in the browser and sent with each request.</dd>
+      <dt>Hash</dt><dd>A one-way scramble of a password. You can check a password against it, but never turn it back into text.</dd>
+      <dt>Seed</dt><dd>Filler rows inserted so the screens have something to show.</dd>
+    </dl>
+    <dl class="gloss">
+      <dt>Mock / fake data</dt><dd>Made-up data served by the frontend itself, before the real server exists.</dd>
+      <dt>Index</dt><dd>A lookup list the database keeps so it can find rows without reading every one.</dd>
+      <dt>Transaction</dt><dd>Several database writes that either all succeed or all undo. No half-finished states.</dd>
+      <dt>Partial index</dt><dd>An index that only covers rows matching a condition — used here for "only one PENDING claim per item".</dd>
+      <dt>Rollback</dt><dd>Undoing a transaction because one part of it failed.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ APPENDIX B ============ -->
+<section class="sec-start" style="--accent:#334155">
+  <p class="eyebrow">Appendix B · for whoever combines the work</p>
+  <h1 class="h1 mt6">Putting it together</h1>
+  <p class="lead mt8">This page is for the person holding the three sets of zips. It should take about an hour, most of it waiting for <span class="mono">npm install</span>.</p>
+
+  <h2 class="h2 mt18">B.1 · The order</h2>
+  <div class="steps mt8">
+    <div class="step"><div class="n">1</div><div class="t"><b>Database first.</b><p>Unzip A, then B, into <span class="mono">database/</span>. Run the files in number order: 01, 02, 03, 04, 05, 06. Then run 06 again and check every line says PASS.</p></div></div>
+    <div class="step"><div class="n">2</div><div class="t"><b>Then the server.</b><p>Unzip A, B, C into <span class="mono">server/</span>. Start it. Check <span class="mono">/api/health</span>. Then walk the address table in A.3 with a student token, then an admin token.</p></div></div>
+    <div class="step"><div class="n">3</div><div class="t"><b>Then the frontend.</b><p>Unzip A first, then B, then C into <span class="mono">client/</span>. Order matters only for <span class="mono">routes.jsx</span>, which only A touches.</p></div></div>
+    <div class="step"><div class="n">4</div><div class="t"><b>Then flip the switch.</b><p>Change the one setting in <span class="mono">lib/api.js</span> from fake data to the real server, and fix whatever breaks. Something always breaks.</p></div></div>
+  </div>
+
+  <div class="cols2 mt18">
+    <div class="box box-warn">
+      <div class="h3">The same-file check</div>
+      <p class="small mt6">Before unzipping anything, list the files inside all three zips and look for the same path appearing twice. If it does, two people think they own that file — stop and ask which one is right. Do not pick the newer one; the newer one is often the one that did not know about the other.</p>
+      <p class="small mt6">The three files that most often collide are <span class="mono">index.css</span>, <span class="mono">lib/api.js</span> and <span class="mono">package.json</span>. All three belong to Person A.</p>
+    </div>
+    <div class="box box-tint">
+      <div class="h3">What should be in the final folder</div>
+<div class="tree mt6">IFT305project/
+├── client/      React app
+├── server/      Express app
+├── database/    01 … 06 .sql
+├── docs/        prd, design,
+│                blueprint, this plan
+├── design/      mockups.html,
+│                design.pdf
+└── README.md    how to run it</div>
+    </div>
+  </div>
+
+  <h2 class="h2 mt18">B.2 · The ten-minute test before you submit</h2>
+  <table class="mt8">
+    <tr><th style="width:5%">#</th><th style="width:45%">Check</th><th>If it fails</th></tr>
+    <tr><td>1</td><td>Both apps start with no red text in the terminal</td><td>A missing package or a bad <span class="mono">.env</span></td></tr>
+    <tr><td>2</td><td>Register a brand-new account, then log in with it</td><td>Auth or hash mismatch</td></tr>
+    <tr><td>3</td><td>Report a found item with a photo, and see it in the list</td><td>Upload path or item query</td></tr>
+    <tr><td>4</td><td>Log in as a second student and claim that item</td><td>Claim rules</td></tr>
+    <tr><td>5</td><td>The item now says CLAIM_PENDING and the owner cannot edit it</td><td>Transaction or status guard</td></tr>
+    <tr><td>6</td><td>Reject the claim with a reason; the item goes back to OPEN</td><td>Decision route</td></tr>
+    <tr><td>7</td><td>The same student cannot claim it again — 409</td><td>The unique index is missing</td></tr>
+    <tr><td>8</td><td>Claim again as a third student and approve it</td><td>Transaction</td></tr>
+    <tr><td>9</td><td>Both parties now see each other's phone and email; nobody else does</td><td>Contact leak — the most serious bug here</td></tr>
+    <tr><td>10</td><td>A student token on <span class="mono">/api/admin/stats</span> returns 403</td><td>Missing admin check</td></tr>
+  </table>
+
+  <div class="box box-warn mt14">
+    <div class="h3">Check number 9 is not optional</div>
+    <p class="small mt6">Open the approved item in a private window, logged out, and in the browser's network tab. The finder's phone number must not appear anywhere in the response. If it does, the whole design claim of this project — that contact details stay private until an admin approves — is false, and it is the first thing a careful examiner will test.</p>
+  </div>
+
+  <h2 class="h2 mt18">B.3 · What each person's work becomes in the report</h2>
+  <table class="mt8">
+    <tr><th style="width:22%">Chapter</th><th>Comes from</th></tr>
+    <tr><td>Chapter Three — Design</td><td>Appendix A of this plan, plus Person A's ERD and Person B's explanation of the two unique rules</td></tr>
+    <tr><td>Chapter Four — Implementation</td><td>Each person's <span class="mono">evidence/</span> screenshots. One section per module, written by its owner</td></tr>
+    <tr><td>Chapter Five — Testing</td><td>Person C's test plan and filled-in results, plus Person B's constraint proof output</td></tr>
+  </table>
+  <p class="small muted mt8">Ask each person for two or three paragraphs in their own words about the hardest decision they made. Do not write those paragraphs for them — a viva question will find the difference immediately.</p>
+</section>
+
+</body>
+</html>
