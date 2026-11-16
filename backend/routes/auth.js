@@ -7,10 +7,12 @@ const sign = (u) => jwt.sign({ id: u.id, role: u.role }, process.env.JWT_SECRET,
 const pub = (u) => ({ id: u.id, full_name: u.full_name, email: u.email, matric_no: u.matric_no, phone: u.phone, role: u.role });
 
 router.post('/auth/register', async (req, res) => {
-  const { matric_no, full_name, email, phone, password } = req.body;
+  let { matric_no, full_name, email, phone, password } = req.body;
   if (![matric_no, full_name, email, phone, password].every(Boolean)) throw http(400, 'All fields are required');
-  if (!new RegExp(process.env.MATRIC_REGEX).test(matric_no)) throw http(400, 'Invalid matric number format');
-  if (!email.toLowerCase().endsWith('@' + process.env.EMAIL_DOMAIN)) throw http(400, 'Use your campus email address');
+  matric_no = String(matric_no).trim().toLowerCase(); email = String(email).trim().toLowerCase();
+  if (!new RegExp(process.env.MATRIC_REGEX).test(matric_no)) throw http(400, 'Invalid matric number format (e.g. run/cmp/24/17209)');
+  if (!new RegExp('^\\d{5}@' + process.env.EMAIL_DOMAIN.replace(/\./g, '\\.') + '$').test(email)) throw http(400, 'Use your matric email, e.g. 17209@' + process.env.EMAIL_DOMAIN);
+  if (email.split('@')[0] !== matric_no.split('/').pop()) throw http(400, 'Email must start with the last 5 digits of your matric number');
   if (password.length < 8) throw http(400, 'Password must be at least 8 characters');
   const hash = await bcrypt.hash(password, 10);
   const { rows: [u] } = await pool.query(

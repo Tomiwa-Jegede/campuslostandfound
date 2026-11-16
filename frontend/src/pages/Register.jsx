@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
-import { CAMPUS_EMAIL_DOMAIN, MATRIC_EXAMPLE } from '../lib/config.js'
+import { EMAIL_EXAMPLE, MATRIC_EXAMPLE } from '../lib/config.js'
 import { fieldError, validateRegister } from '../lib/validation.js'
 import Button from '../components/ui/Button.jsx'
 import Input from '../components/ui/Input.jsx'
@@ -48,7 +48,7 @@ export default function Register() {
     setFormError('')
     setServerFields({})
     try {
-      await register({ ...values, matric_no: values.matric_no.toUpperCase() })
+      await register({ ...values, matric_no: values.matric_no.trim().toLowerCase() })
       toast.success('Your account is ready.')
       navigate('/dashboard', { replace: true })
     } catch (error) {
@@ -103,8 +103,8 @@ export default function Register() {
             type="email"
             required
             autoComplete="email"
-            placeholder={`your.name@${CAMPUS_EMAIL_DOMAIN}`}
-            hint={`Must end in @${CAMPUS_EMAIL_DOMAIN}. This is checked by format only — we do not send a verification email.`}
+            placeholder={EMAIL_EXAMPLE}
+            hint="Your 5-digit matric number + @run.edu.ng. Checked by format only; no verification email is sent."
             value={values.email}
             onChange={change('email')}
             onBlur={blur('email')}

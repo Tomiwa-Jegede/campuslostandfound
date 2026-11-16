@@ -1,4 +1,4 @@
-import { CAMPUS_EMAIL_DOMAIN, MATRIC_PATTERN } from './config.js'
+import { EMAIL_PATTERN, EMAIL_EXAMPLE, MATRIC_PATTERN, MATRIC_EXAMPLE } from './config.js'
 
 const text = (value) => String(value ?? '').trim()
 
@@ -6,12 +6,15 @@ const text = (value) => String(value ?? '').trim()
 export function validateRegister(values) {
   const errors = {}
   if (text(values.full_name).length < 3) errors.full_name = 'Enter your full name.'
-  if (!MATRIC_PATTERN.test(text(values.matric_no).toUpperCase())) {
-    errors.matric_no = 'Use the format IFT/21/1042.'
+  if (!MATRIC_PATTERN.test(text(values.matric_no).toLowerCase())) {
+    errors.matric_no = `Use the format ${MATRIC_EXAMPLE}.`
   }
   if (!text(values.department)) errors.department = 'Choose or type your department.'
-  if (!text(values.email).toLowerCase().endsWith(`@${CAMPUS_EMAIL_DOMAIN}`)) {
-    errors.email = `Use your campus email ending in @${CAMPUS_EMAIL_DOMAIN}.`
+  const emailText = text(values.email).toLowerCase()
+  if (!EMAIL_PATTERN.test(emailText)) {
+    errors.email = `Use your matric email, e.g. ${EMAIL_EXAMPLE}.`
+  } else if (!errors.matric_no && emailText.split('@')[0] !== text(values.matric_no).split('/').pop()) {
+    errors.email = 'Your email must start with the last 5 digits of your matric number.'
   }
   if (!/^0\d{10}$/.test(text(values.phone))) {
     errors.phone = 'Enter an 11-digit phone number starting with 0.'

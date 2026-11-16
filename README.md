@@ -29,7 +29,7 @@ cp backend/.env.example backend/.env        # then set JWT_SECRET
 (cd frontend && npm run dev)    # App on http://localhost:5173
 ```
 Admin login: `admin@campus.edu.ng` / `admin1234` (change it after first use).
-Students register themselves with a matric number (e.g. `IFT/21/1042`) and a `@campus.edu.ng` email.
+Students register themselves with a matric number (e.g. `run/cmp/24/17209`) and the matching 5-digit email (e.g. `17209@run.edu.ng`).
 
 ## Main flow
 Student A reports a found item (photo optional) -> Student B claims it with proof (30+ characters) -> admin approves -> both students see each other's contact details and the item becomes RETURNED. If the admin rejects (reason required), the item goes back to OPEN and that student cannot claim it again.

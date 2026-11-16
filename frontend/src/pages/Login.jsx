@@ -7,7 +7,6 @@ import Button from '../components/ui/Button.jsx'
 import Input from '../components/ui/Input.jsx'
 
 const DEMO = [
-  { label: 'Student', email: 'ada.okafor@campus.edu.ng', password: 'password123' },
   { label: 'Administrator', email: 'admin@campus.edu.ng', password: 'admin1234' },
 ]
 
