@@ -28,4 +28,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Server error' });
 });
 
-app.listen(process.env.PORT, () => console.log('API on http://localhost:' + process.env.PORT));
+app.listen(process.env.PORT, (err) => {
+  if (err) { console.error('Cannot start:', err.message); process.exit(1); }
+  console.log('API on http://localhost:' + process.env.PORT);
+});

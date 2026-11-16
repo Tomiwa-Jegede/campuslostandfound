@@ -25,7 +25,7 @@ cp backend/.env.example backend/.env        # then set JWT_SECRET
 
 ## Run
 ```bash
-(cd backend && npm run dev)     # API on http://localhost:5000
+(cd backend && npm run dev)     # API on http://localhost:5001
 (cd frontend && npm run dev)    # App on http://localhost:5173
 ```
 Admin login: `admin@campus.edu.ng` / `admin1234` (change it after first use).
