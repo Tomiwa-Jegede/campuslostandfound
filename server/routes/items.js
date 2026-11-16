@@ -39,8 +39,12 @@ router.get('/items/:id', auth(false), async (req, res) => {
   if (!item || (item.status === 'ARCHIVED' && req.user?.role !== 'admin')) throw http(404, 'Item not found');
   if (req.user) {
     const { rows: [mine] } = await pool.query(
-      'SELECT status FROM claims WHERE item_id=$1 AND claimant_id=$2', [item.id, req.user.id]);
-    item.my_claim_status = mine ? mine.status : null;
+      'SELECT id, status, rejection_reason FROM claims WHERE item_id=$1 AND claimant_id=$2', [item.id, req.user.id]);
+    if (mine) {
+      item.my_claim_id = mine.id;
+      item.my_claim_status = mine.status;
+      item.my_rejection_reason = mine.rejection_reason;
+    }
   }
   if (item.status === 'RETURNED' && req.user) {   // D13: contacts only after approval
     const { rows: [cl] } = await pool.query(

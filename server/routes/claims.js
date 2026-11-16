@@ -22,10 +22,20 @@ router.post('/items/:id/claims', auth(), requireRole('student'), async (req, res
 });
 
 router.get('/claims/mine', auth(), async (req, res) => {
-  res.json((await pool.query(
-    `SELECT c.*, i.title, i.status AS item_status FROM claims c
-     JOIN items i ON i.id=c.item_id WHERE c.claimant_id=$1 ORDER BY c.created_at DESC`,
-    [req.user.id])).rows);
+  const { rows } = await pool.query(
+    `SELECT c.*, i.title, i.status AS item_status, i.type AS item_type,
+            i.location, i.category_id, i.photo_path, i.date_occurred,
+            f.full_name AS finder_name, f.email AS finder_email, f.phone AS finder_phone
+     FROM claims c JOIN items i ON i.id=c.item_id
+     LEFT JOIN users f ON f.id=COALESCE(i.held_by,i.reported_by)
+     WHERE c.claimant_id=$1 ORDER BY c.created_at DESC`,
+    [req.user.id]);
+  res.json(rows.map((c) => {
+    if (c.status === 'APPROVED') {
+      c.finder_contact = { name: c.finder_name, email: c.finder_email, phone: c.finder_phone };
+    }
+    return c;
+  }));
 });
 
 router.get('/claims/:id', auth(), async (req, res) => {

@@ -1371,3 +1371,57 @@ textarea {
     box-shadow: var(--shadow);
   }
 }
+
+/* ===== WRAP-FIX (Phase 6): text wrapping and overflow overrides ===== */
+html, body { overflow-x: hidden; }
+body { overflow-wrap: break-word; }
+main, .container, .card, .card-pad, .item-body, .notice > *, .grow, .row > *, .cell-item > *, .stat { min-width: 0; }
+
+/* One-line controls never break mid-label */
+.btn, .nav a, .menu-btn, .chip, .segmented button, .side-link, .brand, .badge, .table th { white-space: nowrap; }
+.btn { flex-shrink: 0; }
+
+/* Topbar: keep everything on one row, shrink the name instead of wrapping */
+.topbar-inner { flex-wrap: nowrap; min-width: 0; }
+.menu-btn { max-width: 160px; }
+.menu-btn .small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 90px; }
+.menu { max-width: calc(100vw - 24px); }
+.menu a, .menu button { white-space: normal; }
+
+/* Headings and long user text: break long words, keep normal words intact */
+h1, h2, h3, .item-title, .facts dd, .prose, .notice, .form-error, .err, .hint, .card-head h2, .stat .k { overflow-wrap: anywhere; word-break: normal; }
+.item-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.item-meta { align-items: baseline; }
+.item-meta > span { min-width: 0; overflow-wrap: anywhere; }
+.hero h1 { max-width: 22ch; text-wrap: balance; }
+.page-head > * { min-width: 0; }
+.page-head h1 { text-wrap: balance; }
+.card-head { flex-wrap: wrap; }
+
+/* Facts list: wider label column, values wrap cleanly (emails, phone, matric) */
+.facts { grid-template-columns: minmax(96px, 140px) minmax(0, 1fr); }
+
+/* Tables: scroll sideways instead of crushing columns into one word per line */
+.table { min-width: 680px; }
+.table td { overflow-wrap: break-word; min-width: 90px; }
+.table td:first-child { min-width: 220px; }
+.cell-item { min-width: 220px; }
+
+/* Forms and filters */
+.label { overflow-wrap: anywhere; }
+.toolbar > * { min-width: 0; }
+.stat .n { overflow-wrap: anywhere; }
+.toast-wrap, .toast { overflow-wrap: anywhere; }
+
+@media (max-width: 768px) {
+  .topbar-inner { gap: 6px; }
+  .topbar .btn-sm { padding: 0 10px; font-size: 13px; }
+  .menu-btn .small { display: none; }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .table { min-width: 620px; }
+}
+@media (max-width: 400px) {
+  .container { padding: 0 14px; }
+  .topbar .btn-primary.btn-sm { display: none; }
+  .hero h1 { font-size: 26px; }
+}

@@ -1,3 +1,4 @@
+require('pg').types.setTypeParser(1082, (v) => v) // DATE stays 'YYYY-MM-DD', no timezone shift
 require('dotenv').config();
 const { Pool } = require('pg');
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
