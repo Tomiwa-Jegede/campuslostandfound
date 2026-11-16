@@ -1,7 +1,7 @@
 # Project Blueprint — Campus Lost and Found Portal
 
 > Single source of truth for this project. Updated at the end of every phase.
-> **Status: Phase 1 complete and approved. Phase 2 not started.**
+> **Status: Phases 0-5 complete. Frontend on mock API; integration (Phase 6) next.**
 
 ## 1. Project Overview
 
@@ -56,7 +56,7 @@ IFT305project/
 | npm | 11.17.0 | installed |
 | git | 2.50.1 | installed |
 | Homebrew | `/opt/homebrew` | installed |
-| PostgreSQL | — | NOT installed — required from Phase 5 |
+| PostgreSQL | 16 | installed |
 
 ## 6. Decisions Log
 
@@ -147,11 +147,42 @@ for admin.
 
 ## 11. API Specification
 
-_Not yet defined. Phase 4._
+All routes under `/api`, JSON, JWT in `Authorization: Bearer`.
+
+| Method | Path | Access | Purpose |
+|---|---|---|---|
+| POST | /auth/register | Guest | Validate matric + campus email, hash password, return JWT |
+| POST | /auth/login | Guest | Return JWT and user |
+| GET | /auth/me | Auth | Current user |
+| PATCH | /users/me | Student | Update name, phone, password (matric/email read-only, D17) |
+| GET | /categories | Public | Category list |
+| GET | /items | Public | List items; query: type, category, q, status; hides ARCHIVED |
+| GET | /items/:id | Public | Detail; contacts only after approval (D13) |
+| POST | /items | Student | Report item (multipart `photo`) |
+| GET | /items/mine | Student | My reports |
+| PATCH | /items/:id | Owner | Edit; 409 once a claim exists (D15) |
+| POST | /items/:id/claims | Student | Submit claim {proof_text, serial_number?} |
+| GET | /claims/mine | Student | My claims |
+| GET | /claims/:id | Claimant/Admin | Claim detail; finder contact if APPROVED |
+| GET | /admin/claims | Admin | Review queue; query: status |
+| PATCH | /admin/claims/:id/approve | Admin | Claim APPROVED, item RETURNED |
+| PATCH | /admin/claims/:id/reject | Admin | {reason} required; claim REJECTED, item OPEN |
+| GET | /admin/items | Admin | All items incl. archived |
+| PATCH | /admin/items/:id/archive | Admin | Set ARCHIVED (D14) |
+
+Errors: `{ "error": "message" }` with 400, 401, 403, 404 or 409.
+Claim submit, approve and reject run in transactions.
 
 ## 12. Database Schema
 
-_Not yet defined. Phase 5._
+Implemented in `database/schema.sql`, seeded by `database/seed.sql`.
+
+Tables: `users`, `categories`, `items`, `claims`.
+- `claims` has UNIQUE (item_id, claimant_id) for D18, a partial unique index
+  allowing one PENDING claim per item for D11, and a CHECK requiring a
+  rejection reason when status is REJECTED.
+- `items.held_by` is set only for FOUND items (D7).
+- Seed: 8 categories and one admin account (admin@campus.edu.ng).
 
 ## 13. Phase Status
 
@@ -160,10 +191,10 @@ _Not yet defined. Phase 5._
 | 0 | Existing project inspection | COMPLETE |
 | 1 | Planning and requirements | COMPLETE — approved |
 | 2 | UI/UX design | COMPLETE — approved |
-| 3 | Frontend development | Not started |
-| 4 | Backend development | Not started |
-| 5 | Database design and implementation | Not started |
-| 6 | Integration, testing, debugging | Not started |
+| 3 | Frontend development | COMPLETE (mock API) |
+| 4 | Backend development | COMPLETE |
+| 5 | Database design and implementation | COMPLETE |
+| 6 | Integration, testing, debugging | Next |
 | 7 | Documentation | Not started |
 
 ## 14. Documents
