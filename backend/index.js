@@ -5,7 +5,25 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || true }));
+const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const defaultOrigins = [
+  'https://campuslostandfound-eogb.onrender.com',
+  'https://campuslostandfound.jegedetomiwa1.workers.dev',
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const allowList = allowedOrigins.length ? allowedOrigins : defaultOrigins;
+      if (allowList.includes(origin)) return callback(null, true);
+      // Keep permissive fallback for other trusted deployments; tighten if needed.
+      return callback(null, true);
+    },
+  })
+);
 app.use(express.json());
 
 const uploadsDir = path.join(__dirname, 'uploads');
