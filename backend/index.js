@@ -1,17 +1,32 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || true }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const uploadsDir = path.join(__dirname, 'uploads');
+fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
+
 app.use('/api', require('./routes/auth'));
 app.use('/api', require('./routes/items'));
 app.use('/api', require('./routes/claims'));
 app.use('/api', require('./routes/admin'));
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
+
+// Serve the built React app in production/single-service deployments.
+const distDir = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
+}
 
 const MSG = {
   users_email_key: 'Email already registered',
@@ -28,7 +43,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Server error' });
 });
 
-app.listen(process.env.PORT, (err) => {
-  if (err) { console.error('Cannot start:', err.message); process.exit(1); }
-  console.log('API on http://localhost:' + process.env.PORT);
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+  console.log('API on http://localhost:' + PORT);
 });

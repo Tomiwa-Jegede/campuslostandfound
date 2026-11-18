@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: campus-lost-and-found
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false
+      # Optional: for a separate frontend static site, set VITE_API_URL at build time.
+      # For this single-service setup the frontend defaults to /api in production.
+      - key: EMAIL_DOMAIN
+        value: run.edu.ng
+      - key: MATRIC_REGEX
+        value: ^[A-Za-z0-9/]{6,20}$

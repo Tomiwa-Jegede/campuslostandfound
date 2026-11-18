@@ -1,7 +1,7 @@
 /* Real API adapter: talks to Express (snake_case) and reshapes responses
    into what the UI expects. The mock version is in api.mock.backup.js. */
 export const USE_MOCK = false
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001/api'
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5001/api')
 const ORIGIN = API_BASE.replace(/\/api\/?$/, '')
 
 /* If a create/list call fails with a field-name mismatch, fix it HERE
