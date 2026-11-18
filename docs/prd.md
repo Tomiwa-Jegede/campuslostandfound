@@ -3,7 +3,7 @@
 
 | | |
 |---|---|
-| **Course** | IFT305 |
+| **Course** | IFT301 |
 | **Version** | 1.1 — approved; amended during Phase 2 design |
 | **Date** | 16 November 2026 |
 | **Stack** | PostgreSQL, Express.js, React (Vite), Node.js |

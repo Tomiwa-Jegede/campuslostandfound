@@ -61,7 +61,7 @@ export default function SiteLayout() {
 
       <footer className="footer">
         <div className="container footer-inner">
-          <span>Campus Lost &amp; Found — an IFT305 project. Local demonstration only.</span>
+          <span>Campus Lost &amp; Found — an IFT301 project. Local demonstration only.</span>
           <span>
             <Link to="/lost">Lost</Link> · <Link to="/found">Found</Link>
           </span>

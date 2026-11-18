@@ -6,7 +6,7 @@
 ## 1. Project Overview
 
 **Project:** Campus Lost and Found Portal
-**Course:** IFT305
+**Course:** IFT301
 **Type:** PERN stack web application, functional academic prototype designed to be deployable
 **Delivery mode:** demonstrated locally at `localhost`
 
@@ -41,7 +41,7 @@ React (browser)  --HTTP/JSON-->  Express API  --SQL-->  PostgreSQL
 ## 4. Repository Layout
 
 ```
-IFT305project/
+IFT301project/
 ├── frontend/          React + Vite frontend
 ├── backend/          Express backend
 ├── database/        SQL schema, seed, queries
@@ -62,7 +62,7 @@ IFT305project/
 
 | # | Decision | Reason |
 |---|---|---|
-| D1 | Build in `IFT305project`; leave `project-starter` untouched | Clean slate; original pack preserved |
+| D1 | Build in `IFT301project`; leave `project-starter` untouched | Clean slate; original pack preserved |
 | D2 | Do not adopt the `AGENTS.md` / 4-agent `RUNTIME.md` machinery | Unnecessary complexity for a mini project |
 | D3 | One `docs/blueprint.md` plus `docs/prd.md` instead of a three-file management scaffold | Easy to maintain and defend |
 | D4 | Two roles only: student and admin. No custodian role | Admin acts as the lost-and-found desk |

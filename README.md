@@ -1,6 +1,6 @@
 # Campus Lost and Found Portal
 
-IFT305 course project. A web portal where students report lost or found items, claim items with proof, and an admin approves or rejects claims. Built on the PERN stack (PostgreSQL, Express, React, Node).
+IFT301 course project. A web portal where students report lost or found items, claim items with proof, and an admin approves or rejects claims. Built on the PERN stack (PostgreSQL, Express, React, Node).
 
 ## Folders
 | Folder | Contents |
