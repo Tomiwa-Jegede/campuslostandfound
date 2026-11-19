@@ -1425,3 +1425,37 @@ h1, h2, h3, .item-title, .facts dd, .prose, .notice, .form-error, .err, .hint, .
   .topbar .btn-primary.btn-sm { display: none; }
   .hero h1 { font-size: 26px; }
 }
+
+/* ===== Dashboard: recent reports / recent claims ===== */
+.dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* minmax(0,…) stops long titles widening a column */
+  gap: 24px;
+  align-items: start;
+}
+.dash-grid > section { min-width: 0; }
+.dash-grid .row.between { gap: 12px; flex-wrap: nowrap; align-items: baseline; }
+
+/* Keep each row on one line: thumbnail | title (ellipsis) | status badge */
+.dash-grid .list-row {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+.dash-grid .list-main { flex: 1 1 0; min-width: 0; }
+.dash-grid .list-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dash-grid .list-row > .badge,
+.dash-grid .list-row > [class*="badge"] { flex: none; }
+
+@media (max-width: 900px) {
+  .dash-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; } /* stack the two sections */
+}
+@media (max-width: 400px) {
+  .dash-grid .list-thumb { width: 44px; height: 36px; }
+  .dash-grid .list-row { gap: 10px; padding: 10px 12px; }
+}

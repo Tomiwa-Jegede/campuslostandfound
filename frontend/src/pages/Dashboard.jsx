@@ -125,7 +125,7 @@ export default function Dashboard() {
             </div>
           </section>
 
-          <div className="detail-grid mt24" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          <div className="dash-grid mt24">
             <section>
               <div className="row between">
                 <h2>Your recent reports</h2>

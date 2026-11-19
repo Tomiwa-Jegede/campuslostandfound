@@ -93,7 +93,7 @@ export default function ClaimReview() {
             {data.item ? <StatusBadge status={data.item.status} type={data.item.type} /> : null}
           </div>
           <h3 className="mt8">{data.item?.title}</h3>
-          <dl className="facts mt8" style={{ gridTemplateColumns: '110px 1fr', fontSize: 14 }}>
+          <dl className="facts mt8" style={{ fontSize: 14 }}>
             <dt>Category</dt>
             <dd>{data.item?.category_name}</dd>
             <dt>Location</dt>
